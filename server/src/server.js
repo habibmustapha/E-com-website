@@ -1,6 +1,6 @@
-const app = require("./app");
-const pool = require("../src/config/db");
-const { json } = require("express");
+import app from "./app.js";
+import pool from "./config/db.js";
+import { json } from "express";
 
 const PORT = 5000;
 
