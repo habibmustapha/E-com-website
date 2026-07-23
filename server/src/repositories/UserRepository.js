@@ -2,7 +2,7 @@ import db from "../config/db.js";
 
 const UserRepository = {
 
-    async getAllUser() {
+    async getAllUsers() {
         const result = await db.query(
             `SELECT * FROM users`
         );
@@ -19,6 +19,16 @@ const UserRepository = {
         return result.rows[0]
     },
 
+    async getUserByEmail(email) {
+        const result = await db.query(
+            `SELECT * FROM users
+            WHERE email=$1`,
+            [email]
+        );
+
+        return result.rows[0]
+    },
+
     async createUser(user) {
         const {
             first_name,
@@ -26,18 +36,17 @@ const UserRepository = {
             username,
             email,
             profile_image,
-            role,
             phone,
-            password_hash,
+            ps_hash,
             activated,
         } = user
         const result = await db.query(
             `INSERT INTO users
-                (first_name,last_name,username,email,profile_image,role,phone,password_hash,activated) 
+                (first_name,last_name,username,email,profile_image,phone,ps_hash,activated) 
             VALUES 
-                ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                ($1,$2,$3,$4,$5,$6,$7,$8)
             RETURNING *`,
-            [first_name,last_name,username,email,profile_image,role,phone,password_hash,activated]
+            [first_name,last_name,username,email,profile_image,phone,ps_hash,activated]
         );
         return result.rows[0];
     },
@@ -75,9 +84,8 @@ const UserRepository = {
 
     async deleteUser(id) {
         const result = await db.query(
-            `UPDATE users
-            SET deleted = True
-            WHERE id=$1`,
+            `DELETE FROM users
+            WHERE id=$1 RETURNING *`,
             [id]
         );
         return result;
@@ -85,4 +93,4 @@ const UserRepository = {
 
 };
 
-export default userRepository
+export default UserRepository

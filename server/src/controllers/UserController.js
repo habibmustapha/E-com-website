@@ -1,14 +1,15 @@
 import userRepository from "../repositories/UserRepository.js";
+import bcrypt from "bcrypt";
 
 const userController = {
 
     async getAllUsers(req,res) {
         try {
             const users = await userRepository.getAllUsers();
-            res.status(200).json(users);
+            return res.status(200).json(users);
         } catch (err) {
             console.error(err);
-            res.status(500).json({
+            return res.status(500).json({
                 message : "failed to fetch all users"
             });
         }
@@ -19,15 +20,15 @@ const userController = {
             const id = req.params.id;
             const user = await userRepository.getUserById(id);
             if (!user) {
-                res.status(404).json({
+                return res.status(404).json({
                     message : "user not found"
                 });
             } else {
-                res.status(200).json(user);
+                return res.status(200).json(user);
             };
         } catch (err) {
             console.error(err);
-            res.status(500).json({
+            return res.status(500).json({
                 message : "Failed to fetch user"
             });
         }
@@ -35,11 +36,24 @@ const userController = {
 
     async createUser(req, res) {
         try {
-            const user = await userRepository.createUser(req,body);
-            res.status(200).json(user);
+            const userData = req.body;
+            const ps_hash = await bcrypt.hash(userData.password, 10);
+            const newUserData = {
+                first_name: userData.first_name,
+                last_name: userData.last_name,
+                username: userData.username,
+                email: userData.email,
+                profile_image: userData.profile_image || null,
+                phone: userData.phone,
+                ps_hash: ps_hash,  // ← Use hashed password
+                activated: userData.activated || false,
+            };
+            const user = await userRepository.createUser(newUserData);
+            const { ps_hash: _, ...userWithoutPassword } = user;
+            return res.status(201).json(user);
         } catch (err) {
             console.error(err);
-            res.status(500).json({
+            return res.status(500).json({
                 message : "Failed to create user"
             });
         }
@@ -50,15 +64,15 @@ const userController = {
             const id = req.params.id;
             const user = await userRepository.updateUser(id);
             if (!user) {
-                res.status(404).json({
+                return res.status(404).json({
                     message : "user not found"
                 });
             } else {
-                res.status(200).json(user);
+                return res.status(200).json(user);
             };
         } catch (err) {
             console.error(err);
-            res.status(500).json({
+            return res.status(500).json({
                 message : "Failed to update user"
             });
         }
@@ -69,15 +83,15 @@ const userController = {
             const id = req.params.id;
             const user = await userRepository.deleteUser(id);
             if (!user) {
-                res.status(404).json({
+                return res.status(404).json({
                     message : "user not found"
                 });
             } else {
-                res.status(200).json(user);
+                return res.status(200).json(user);
             };
         } catch (err) {
             console.error(err);
-            res.status(500).json({
+            return res.status(500).json({
                 message : "Failed to delete user"
             });
         }
