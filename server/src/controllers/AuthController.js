@@ -4,7 +4,13 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 
-
+const generateToken = (id) => {
+    return jwt.sign(
+        {id : id},
+        process.env.JWT_SECRET,
+        {expiresIn: "10d"}
+    )
+};
 
 dotenv.config()
 
@@ -37,13 +43,7 @@ const auth = {
                 activated : false,
             });
 
-            const generateToken = (id) => {
-                return jwt.sign(
-                    { id :id },
-                    process.env.JWT_SECRET,
-                    { expiresIn: "30d" }
-                );
-            };
+            
 
             const token = generateToken(newUser.id);
 
@@ -104,13 +104,7 @@ const auth = {
                 })
             };
 
-            const generateToken = (id) => {
-                return jwt.sign(
-                    { id :id },
-                    process.env.JWT_SECRET,
-                    { expiresIn: "30d" }
-                );
-            };
+            
 
             const cookieOptions = {
                 httpOnly: true,
