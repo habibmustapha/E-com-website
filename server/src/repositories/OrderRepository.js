@@ -1,6 +1,6 @@
 import db from "../config/db.js";
 
-const orderRepository = {
+const orderItemRepository = {
 
     async getAllOrders() {
         const result = await db.query(
@@ -30,15 +30,15 @@ const orderRepository = {
             total_price,
             status,
             wilaya,
-            commune
+            communes
         } = order
         const result = await db.query(
             `INSERT INTO orders
-                (first_name,last_name,user_id,email,address,phone,total_price,status,wilaya,commune) 
+                (first_name,last_name,user_id,email,address,phone,total_price,status,wilaya,communes) 
             VALUES 
                 ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
             RETURNING *`,
-            [first_name,last_name,user_id,email,address,phone,total_price,status,wilaya,commune]
+            [first_name,last_name,user_id,email,address,phone,total_price,status,wilaya,communes]
         );
         return result.rows[0];
     },
@@ -88,4 +88,4 @@ const orderRepository = {
 
 };
 
-export default orderRepository
+export default orderItemRepository
