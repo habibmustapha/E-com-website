@@ -12,7 +12,7 @@ const generateToken = (id) => {
     )
 };
 
-dotenv.config()
+
 
 const auth = {
     async register(req,res) {

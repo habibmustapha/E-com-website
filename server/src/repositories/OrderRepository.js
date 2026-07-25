@@ -4,16 +4,45 @@ const orderItemRepository = {
 
     async getAllOrders() {
         const result = await db.query(
-            `SELECT * FROM orders`
+            `SELECT
+                oi.order_id,
+                p.name,
+                oi.qty,
+                oi.unit_price
+            FROM orderitems oi
+            JOIN products p
+            ON oi.product_id = p.id;`
         );
         return result.rows;
     },
 
     async getOrderById(id) {
         const result = await db.query(
-            `SELECT * FROM orders
+            `SELECT
+                oi.order_id,
+                p.name,
+                oi.qty,
+                oi.unit_price
+            FROM orderitems oi
+            JOIN products p
+            ON oi.product_id = p.id
             WHERE id=$1`,
             [id]
+        );
+
+        return result.rows[0]
+    },
+    
+    async getOrderByUserId(id) {
+        const result = await db.query(
+            `SELECT
+                o.id,
+                u.username,
+                o.total_price,
+                o.status
+            FROM orders o
+            JOIN users u
+            ON o.user_id = u.id;`
         );
 
         return result.rows[0]

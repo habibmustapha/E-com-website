@@ -2,7 +2,13 @@ import db from "../config/db.js";
 
 const ReviewsRepository = {
     async getAllReviews() {
-        const result = await db.query("SELECT * FROM reviews");
+        const result = await db.query(`SELECT
+            r.comment,
+            r.rating,
+            u.username
+        FROM reviews r
+        JOIN users u
+        ON r.user_id = u.id;`);
         return result.rows;
     },
 

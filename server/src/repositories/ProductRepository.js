@@ -2,7 +2,17 @@ import db from "../config/db.js";
 
 const ProductRepository = {
     async getAllProducts() {
-        const result = await db.query("SELECT * FROM products");
+        const result = await db.query(`SELECT
+            p.id,
+            p.name,
+            p.price,
+            p.qty,
+            p.description,
+            p.image_url,
+            c.name AS category
+        FROM products p
+        JOIN category c
+        ON p.cat_id = c.id;`);
         return result.rows;
     },
 

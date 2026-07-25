@@ -47,6 +47,7 @@ const userController = {
                 phone: userData.phone,
                 ps_hash: ps_hash,  // ← Use hashed password
                 activated: userData.activated || false,
+                role : userData.role || "customer"
             };
             const user = await userRepository.createUser(newUserData);
             const { ps_hash: _, ...userWithoutPassword } = user;

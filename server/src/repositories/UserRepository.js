@@ -39,14 +39,15 @@ const UserRepository = {
             phone,
             ps_hash,
             activated,
+            role
         } = user
         const result = await db.query(
             `INSERT INTO users
-                (first_name,last_name,username,email,profile_image,phone,ps_hash,activated) 
+                (first_name,last_name,username,email,profile_image,phone,ps_hash,activated,role) 
             VALUES 
-                ($1,$2,$3,$4,$5,$6,$7,$8)
+                ($1,$2,$3,$4,$5,$6,$7,$8,$9)
             RETURNING *`,
-            [first_name,last_name,username,email,profile_image,phone,ps_hash,activated]
+            [first_name,last_name,username,email,profile_image,phone,ps_hash,activated,role]
         );
         return result.rows[0];
     },
