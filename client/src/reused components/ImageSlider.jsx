@@ -15,15 +15,7 @@ const ImageSlider = ({ slides }) => {
     width: "100%",
     position: "relative",
     height: "100%",
-    backgroundSize: "cover",
-  };
-  const slidesStyle = {
-    width: "100%",
-    marginTop: "20px",
-    borderRadius: "20px",
-    height: "100%",
-    backgroundSize: "cover",
-    backgroundImage: `url(${slides[currentIndex].url})`,
+    backgroundSize: "contain",
   };
 
   const goToslide = (slideIndex) => {
@@ -31,7 +23,13 @@ const ImageSlider = ({ slides }) => {
   };
   return (
     <div style={sliderStyles}>
-      <div style={slidesStyle}></div>
+      <div className="mt-5 h-full">
+        <img
+          src={slides[currentIndex].url}
+          alt={slides[currentIndex].title}
+          className="w-full h-full object-cover rounded-2xl"
+        />
+      </div>
       <div className="flex gap-5 text-4xl justify-center cursor-pointer text-yellow-500">
         {slides.map((slide, slideIndex) => (
           <div key={slideIndex} onClick={() => goToslide(slideIndex)}>

@@ -9,15 +9,13 @@ const Hero = () => {
   ];
 
   const sliderStyle = {
-    width: "95%",
-    height: "300px",
     margin: "0 40px",
     borderRadius: "20px",
   };
 
   return (
     <>
-      <section style={sliderStyle}>
+      <section style={sliderStyle} className="h-56 shadow-xl 2xl:h-125">
         <ImageSlider slides={slides} />
       </section>
     </>

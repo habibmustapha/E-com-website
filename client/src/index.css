@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", sans-serif;
+
+  --color-primary: #D9B21A;
+  --color-primary-hover: #B89212;
+
+  --color-accent: #F4B400;
+
+  --color-background: #FAF8F2;
+  --color-surface: #FFFFFF;
+
+  --color-text: #1F2937;
+  --color-text-light: #6B7280;
+
+  --color-border: #E5E7EB;
+
+  --color-success: #16A34A;
+  --color-danger: #DC2626;
+
+  --breakpoint-xl: 100rem;
+  --breakpoint-2xl: 113rem;
+}
+
+body {
+    background-color: var(--color-background);
+    font-family: var(--font-sans);
+}

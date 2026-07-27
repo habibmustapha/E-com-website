@@ -1,6 +1,9 @@
 import Header from "../HomeComponents/header";
 import Hero from "../HomeComponents/hero";
 import Navbar from "../HomeComponents/navbar";
+import CategorySection from "../HomeComponents/categorySection";
+import ProductSection from "../HomeComponents/ProductSection";
+import Footer from "../HomeComponents/footer";
 
 const Home = () => {
   return (
@@ -8,6 +11,9 @@ const Home = () => {
       <Header />
       <Navbar />
       <Hero />
+      <CategorySection />
+      <ProductSection />
+      <Footer />
     </>
   );
 };
