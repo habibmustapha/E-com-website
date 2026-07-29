@@ -8,14 +8,14 @@ const Hero = () => {
     { url: heroMacbook, title: "macbook" },
   ];
 
-  const sliderStyle = {
-    margin: "0 40px",
-    borderRadius: "20px",
-  };
+  const sliderStyle = {};
 
   return (
     <>
-      <section style={sliderStyle} className="h-56 shadow-xl 2xl:h-125">
+      <section
+        style={sliderStyle}
+        className=" bg-linear-to-r from-yellow-500 to-yellow-200 h-96 shadow-xl 2xl:h-125"
+      >
         <ImageSlider slides={slides} />
       </section>
     </>

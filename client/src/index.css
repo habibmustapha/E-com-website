@@ -6,7 +6,7 @@
   --color-primary: #D9B21A;
   --color-primary-hover: #B89212;
 
-  --color-accent: #F4B400;
+  --color-accent: #efefef;
 
   --color-background: #FAF8F2;
   --color-surface: #FFFFFF;
@@ -26,4 +26,5 @@
 body {
     background-color: var(--color-background);
     font-family: var(--font-sans);
+    
 }

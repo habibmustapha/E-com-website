@@ -3,8 +3,8 @@ import { products } from "../data/DumyData";
 
 const ProductSection = () => {
   return (
-    <section className="bg-background gap-10 xl:gap-20 px-5 xl:px-20 pb-50">
-      <h1 className="font-black text-2xl pb-5">PRODUCTS</h1>
+    <section className="bg-accent pt-5 gap-10 xl:gap-20 px-28 pb-50">
+      <h1 className="font-black text-2xl pb-5">Featured Products</h1>
       <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-10 xl:gap-20 ">
         {products
           .filter((product) => product.rating > 4.5)

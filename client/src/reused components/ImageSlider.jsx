@@ -23,11 +23,11 @@ const ImageSlider = ({ slides }) => {
   };
   return (
     <div style={sliderStyles}>
-      <div className="mt-5 h-full">
+      <div className=" h-full">
         <img
           src={slides[currentIndex].url}
           alt={slides[currentIndex].title}
-          className="w-full h-full object-cover rounded-2xl"
+          className="w-full h-full object-cover "
         />
       </div>
       <div className="flex gap-5 text-4xl justify-center cursor-pointer text-yellow-500">

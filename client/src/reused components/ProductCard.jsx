@@ -5,6 +5,18 @@ const ProductCard = ({ products }) => {
     <>
       <div className="bg-white grid-cols-1 gap-10 xl:gap-20 rounded-xl shadow-xl hover:shadow-2xl">
         <div className="relative h-42 md:h-56 xl:h-72">
+          <div className="absolute top-4 left-4 flex gap-2">
+            <div className="w-fit px-3 z-10 bg-primary rounded-2xl">
+              <h5 className="text-xs">bestseller</h5>
+            </div>
+            {products.promo ? (
+              <div className="w-fit px-3 z-10 bg-primary rounded-2xl">
+                <h3 className="text-xs">{products.per}</h3>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
           <img
             src={products.image}
             alt={products.name}
@@ -18,14 +30,25 @@ const ProductCard = ({ products }) => {
           <p className="text-xs xl:text-sm text-gray-500 h-16 line-clamp-3">
             {products.description}
           </p>
-          <div className="grid grid-cols-1 h-fit pb-4">
+          <div className="grid grid-cols-1 h-fit pb-7">
             <div className="flex justify-between">
               <div>
-                <h3 className="w-full text-lg xl:text-xl text-green-700 float-right">
-                  {products.price} $
-                </h3>
+                {products.promo ? (
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg xl:text-xl text-green-700 float-right">
+                      {products.promo_price} $
+                    </h3>
+                    <span className=" text-sm line-through">
+                      {products.price} $
+                    </span>
+                  </div>
+                ) : (
+                  <h3 className="w-full text-lg xl:text-xl text-green-700 float-right">
+                    {products.price} $
+                  </h3>
+                )}
 
-                <div className="h-12.5">
+                <div className="h-10">
                   {products.stock > 0 ? (
                     <p className="text-base text-green-700"> In Stock </p>
                   ) : (
@@ -35,7 +58,7 @@ const ProductCard = ({ products }) => {
               </div>
 
               <div className="flex bg-primary hover:bg-primary-hover cursor-pointer gap-2 items-center px-5 xl:py-2 rounded-xl">
-                <p className="hidden min-[800px]:block">add to cart</p>
+                {/* <p className="hidden min-[1900px]:block">add to cart</p> */}
 
                 <MdShoppingCart />
               </div>
