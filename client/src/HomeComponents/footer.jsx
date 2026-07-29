@@ -16,8 +16,8 @@ const Footer = () => {
             loading="lazy"
           ></iframe>
         </div>
-        <div className="w-full justify-between grid grid-cols-1 md:flex px-10 md:px-20 gap-10 xl:pt-10">
-          <div className="w-1/3 text-2xl xl:px-20">
+        <div className="w-full justify-between grid grid-cols-1 md:flex md:px-20 gap-10 xl:pt-10">
+          <div className="px-20 md:w-1/3 text-2xl xl:px-20">
             <a href="/shop">
               <h3 className="py-2">Shop</h3>
             </a>
@@ -35,7 +35,7 @@ const Footer = () => {
             </a>
           </div>
 
-          <div className="w-1/3 text-2xl gap-20">
+          <div className="px-20 md:w-1/3 text-2xl gap-20">
             <div className="flex py-2 items-center gap-5">
               <FaPhoneAlt />
               <a href="/shop">
@@ -68,7 +68,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="px-5 w-full md:w-1/3">
+          <div className="px-10 md:px-5 w-full md:w-1/3">
             <div className="flex flex-start gap-3 bg-yellow-500 w-full p-3 shadow-lg mb-5 rounded-2xl">
               <FaShieldAlt className="w-28 h-6 text-black md:w-12 md:h-" />
 
@@ -84,7 +84,7 @@ const Footer = () => {
               </div>
             </div>
             <h3 className="text-xl font-bold pb-2">
-              Follow us on Social media{" "}
+              Follow us on Social media
             </h3>
             <div className="flex gap-4 pl-5">
               <a
@@ -118,7 +118,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="px-20 py-20">
+        <div className="px-10 md:px-20 py-20">
           <h3 className="text-2xl">About US</h3>
           <h3>
             Welcome to Z-PHONE, your trusted destination for the latest
@@ -147,7 +147,7 @@ const Footer = () => {
           </h3>
         </div>
 
-        <div className="w-full items-center">
+        <div className=" w-full items-center">
           <p className="justify-self-center ">
             © 2026 Z-PHONE. All Rights Reserved.
           </p>

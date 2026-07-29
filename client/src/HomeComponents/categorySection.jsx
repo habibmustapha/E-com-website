@@ -4,9 +4,9 @@ import { categories } from "../data/DumyData";
 const CategorySection = () => {
   return (
     <>
-      <section className="px-28 pt-10">
+      <section className="px-5 md:px-20 xl:px-28 pt-10">
         <h1 className="font-black text-2xl pb-5">Shop By Category</h1>
-        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-5 xl:gap-20 pb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-5 xl:gap-20 items-center pb-20">
           {categories.slice(0, 4).map((category) => (
             <CardCategory key={category.id} category={category} />
           ))}

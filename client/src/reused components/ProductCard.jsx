@@ -62,7 +62,6 @@ const ProductCard = ({ products }) => {
                   {products.stock < 3 ? (
                     <div className="w-fit px-3 z-10 bg-danger rounded-2xl">
                       <h3 className="text-xs text-white">
-                        {" "}
                         only {products.stock} left
                       </h3>
                     </div>
@@ -72,7 +71,7 @@ const ProductCard = ({ products }) => {
                 </div>
               </div>
 
-              <div className="flex bg-primary hover:bg-primary-hover cursor-pointer gap-2 items-center px-5 xl:py-2 rounded-xl">
+              <div className="flex bg-primary hover:bg-primary-hover cursor-pointer gap-2 items-center h-fit xl:h-10 px-5 py-5 rounded-xl">
                 {/* <p className="hidden min-[1900px]:block">add to cart</p> */}
 
                 <MdShoppingCart />

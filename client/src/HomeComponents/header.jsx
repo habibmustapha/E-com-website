@@ -28,7 +28,7 @@ const header = () => {
             placeholder="Search products..."
           />
         </div>
-        <div className="flex w-3/12 justify-end items-center pr-5">
+        <div className="flex w-3/12 justify-end items-center pl-2 pr-5">
           <a>
             <FaHeart />
           </a>
