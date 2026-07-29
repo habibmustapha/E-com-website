@@ -103,7 +103,7 @@ export const products = [
     promo_price: 799,
     promo : 1,
     per : 20,
-    stock: 15,
+    stock: 2,
     rating: 3.7,
     reviews: 180,
     image: s25,

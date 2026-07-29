@@ -1,11 +1,11 @@
 import ImageSlider from "../reused components/ImageSlider";
 import heroIphone from "../assets/hero_iphone.jpg";
-import heroMacbook from "../assets/hero_macbook.jpg";
+import exclusive from "../assets/hero_2.png";
 
 const Hero = () => {
   const slides = [
     { url: heroIphone, title: "Iphone" },
-    { url: heroMacbook, title: "macbook" },
+    { url: exclusive, title: "macbook" },
   ];
 
   const sliderStyle = {};

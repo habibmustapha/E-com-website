@@ -2,13 +2,14 @@ import logo from "../assets/logoZ.png";
 import icon from "../assets/logoZi.png";
 import profile from "../assets/profile.webp";
 import { MdShoppingCart } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
 
 // import { CiSearch } from "react-icons/ci";
 
 const header = () => {
   return (
     <>
-      <section className="bg-background flex items-center h-24 pr-2 xl:pr-7 ">
+      <section className="fixed w-full z-30 border-b border-gray-300  bg-background flex items-center h-24 pr-2 xl:pr-7 ">
         <div className="w-3/12 pl-5">
           <img
             src={icon}
@@ -28,6 +29,9 @@ const header = () => {
           />
         </div>
         <div className="flex w-3/12 justify-end items-center pr-5">
+          <a>
+            <FaHeart />
+          </a>
           <a>
             <img src={profile} className="w-12 " alt="profile_picture" />
           </a>

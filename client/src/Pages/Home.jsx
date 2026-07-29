@@ -5,6 +5,7 @@ import CategorySection from "../HomeComponents/categorySection";
 import ProductSection from "../HomeComponents/ProductSection";
 import Footer from "../HomeComponents/footer";
 import Deals from "../HomeComponents/deals";
+import Newsletter from "../HomeComponents/newsletter";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <CategorySection />
       <ProductSection />
       <Deals />
+      <Newsletter />
       <Footer />
     </>
   );

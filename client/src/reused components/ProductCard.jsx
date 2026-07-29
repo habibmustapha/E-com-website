@@ -1,9 +1,10 @@
 import { MdShoppingCart } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
 
 const ProductCard = ({ products }) => {
   return (
     <>
-      <div className="bg-white grid-cols-1 gap-10 xl:gap-20 rounded-xl shadow-xl hover:shadow-2xl">
+      <div className="group bg-white grid-cols-1 gap-10 xl:gap-20 rounded-xl shadow-xl hover:shadow-2xl">
         <div className="relative h-42 md:h-56 xl:h-72">
           <div className="absolute top-4 left-4 flex gap-2">
             <div className="w-fit px-3 z-10 bg-primary rounded-2xl">
@@ -11,12 +12,15 @@ const ProductCard = ({ products }) => {
             </div>
             {products.promo ? (
               <div className="w-fit px-3 z-10 bg-primary rounded-2xl">
-                <h3 className="text-xs">{products.per}</h3>
+                <h3 className="text-xs">{products.per} %</h3>
               </div>
             ) : (
               <></>
             )}
           </div>
+          <button className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-danger ">
+            <FaHeart size={20} />
+          </button>
           <img
             src={products.image}
             alt={products.name}
@@ -53,6 +57,17 @@ const ProductCard = ({ products }) => {
                     <p className="text-base text-green-700"> In Stock </p>
                   ) : (
                     <p className="text-base text-red-700"> Out Of Stock </p>
+                  )}
+
+                  {products.stock < 3 ? (
+                    <div className="w-fit px-3 z-10 bg-danger rounded-2xl">
+                      <h3 className="text-xs text-white">
+                        {" "}
+                        only {products.stock} left
+                      </h3>
+                    </div>
+                  ) : (
+                    <></>
                   )}
                 </div>
               </div>

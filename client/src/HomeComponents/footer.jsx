@@ -8,16 +8,16 @@ import { FaShieldAlt } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
-      <section className="bg-white pb-2">
-        <div className="w-full h-64 justify-items-center px-5 py-5">
+      <section className="bg-footer text-gray-400 pb-2">
+        <div className="w-full h-64 justify-items-center px-20 py-5">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d203.36227312313352!2d1.3225437277879812!3d35.360699535903805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1286d111111c116b%3A0xf1df6b8f8d49e490!2sHavana%20Food!5e0!3m2!1sen!2sdz!4v1785158768614!5m2!1sen!2sdz"
             className="w-full h-full rounded-xl justify-center shadow-xl"
             loading="lazy"
           ></iframe>
         </div>
-        <div className="w-full justify-between grid grid-cols-1 xl:flex px-10 xl:px-20 gap-10 xl:pt-10">
-          <div className="text-2xl xl:px-20">
+        <div className="w-full justify-between grid grid-cols-1 md:flex px-10 md:px-20 gap-10 xl:pt-10">
+          <div className="w-1/3 text-2xl xl:px-20">
             <a href="/shop">
               <h3 className="py-2">Shop</h3>
             </a>
@@ -35,7 +35,7 @@ const Footer = () => {
             </a>
           </div>
 
-          <div className="text-2xl gap-20">
+          <div className="w-1/3 text-2xl gap-20">
             <div className="flex py-2 items-center gap-5">
               <FaPhoneAlt />
               <a href="/shop">
@@ -68,15 +68,15 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="px-5 w-full xl:w-1/3">
-            <div className="flex flex-start gap-3 bg-yellow-500/30 w-full p-3 shadow-lg mb-5 rounded-2xl">
-              <FaShieldAlt className="w-28 h-6 md:w-8 md:h-8" />
+          <div className="px-5 w-full md:w-1/3">
+            <div className="flex flex-start gap-3 bg-yellow-500 w-full p-3 shadow-lg mb-5 rounded-2xl">
+              <FaShieldAlt className="w-28 h-6 text-black md:w-12 md:h-" />
 
               <div>
-                <h3 className="font-semibold text-text">
+                <h3 className="font-semibold text-gray-900">
                   Your satisfaction is our priority.
                 </h3>
-                <p>
+                <p className="text-text">
                   We are committed to providing quality products, secure
                   shopping, and exceptional customer support every step of the
                   way.

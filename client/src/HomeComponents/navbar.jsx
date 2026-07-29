@@ -2,16 +2,13 @@ import { Menu } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <section className="bg-yellow-500 h-10 flex items-center justify-center px-6">
+    <section className="bg-yellow-500 relative top-23 z-20 h-10 flex  justify-center px-6">
       {/* Desktop Menu */}
-      <div className="hidden min-[800px]:flex gap-16 text-lg">
+      <div className="hidden min-[800px]:flex gap-16 h-full items-center justify-center text-lg">
         <a href="/">Home</a>
         <a href="/shop">Shop</a>
-        <a href="/categories">Categories</a>
-        <a href="/new">New Arrivals</a>
+        <a href="/categories">categories</a>
         <a href="/deals">Deals</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
       </div>
 
       {/* Mobile Menu Button */}
