@@ -28,7 +28,7 @@ const ProductCard = ({ products }) => {
           />
         </div>
         <div className="px-3 overflow-hidden">
-          <div className="h-14 md:h-10 pb-2">
+          <div className="h-16 md:h-14 pb-2">
             <h3 className="text-lg xl:text-xl line-clamp-2">{products.name}</h3>
           </div>
           <p className="text-xs xl:text-sm text-gray-500 h-16 line-clamp-3">
@@ -71,7 +71,7 @@ const ProductCard = ({ products }) => {
                 </div>
               </div>
 
-              <div className="flex bg-primary hover:bg-primary-hover cursor-pointer gap-2 items-center h-fit xl:h-10 px-5 py-5 rounded-xl">
+              <div className="flex bg-buttons hover:bg-primary-hover cursor-pointer gap-2 items-center h-fit xl:h-10 px-5 py-5 rounded-xl">
                 {/* <p className="hidden min-[1900px]:block">add to cart</p> */}
 
                 <MdShoppingCart />
