@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 const ProductCard = ({ products }) => {
   return (
     <>
-      <div className="group bg-white grid-cols-1 gap-10 xl:gap-20 rounded-xl shadow-xl hover:shadow-2xl">
+      <div className="group bg-white min-h-110 grid-cols-1 gap-10 xl:gap-20 rounded-xl shadow-xl hover:shadow-2xl">
         <div className="relative h-42 md:h-56 xl:h-72">
           <div className="absolute top-4 left-4 flex gap-2">
             <div className="w-fit px-3 z-10 bg-primary rounded-2xl">

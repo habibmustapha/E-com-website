@@ -5,7 +5,7 @@ import ProductCard from "../reused components/ProductCard";
 const AllDeals = () => {
   return (
     <>
-      <section className="py-5 md:py-20 xl-py-20 px-5 md:px-10 xl:px-20">
+      <section className="py-5 md:py-20 xl-py-20 px-5">
         <h1 className="text-2xl font-bold ">Promo Products</h1>
         <h3 className="text-lg pb-5">Home / Deal</h3>
         <div className="flex w-full gap-10">
@@ -48,7 +48,7 @@ const AllDeals = () => {
               </ul>
             </div>
           </div>
-          <div className="w-9/12 xl:w-10/12 grid-cols-1">
+          <div className="w-10/12 xl:w-10/12 grid-cols-1">
             <div className="cursor-pointer grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-5 ">
               {products
                 .filter((product) => product.promo > 0)
