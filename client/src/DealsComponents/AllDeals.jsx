@@ -1,10 +1,7 @@
 import { products, categories } from "../data/DumyData";
 import ProductCard from "../reused components/ProductCard";
-import { useState } from "react";
-import * as Paginations from "@/components/application/pagination/pagination";
 
-const AllProducts = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+const AllDeals = () => {
   return (
     <>
       <section className="py-5 md:py-10 xl-py-20 px-5 md:px-10 xl:px-20">
@@ -52,15 +49,11 @@ const AllProducts = () => {
           </div>
           <div className="w-9/12 xl:w-10/12 grid-cols-1">
             <div className=" grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5 md:gap-10 xl:gap-20">
-              {products.map((product) => (
-                <ProductCard key={product.id} products={product} />
-              ))}
-            </div>
-            <div className="pt-5">
-              <Paginations.PaginationCardDefault
-                page={currentPage}
-                onPageChange={setCurrentPage}
-              />
+              {products
+                .filter((product) => product.promo > 0)
+                .map((product) => (
+                  <ProductCard key={product.id} products={product} />
+                ))}
             </div>
           </div>
         </div>
@@ -69,4 +62,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default AllDeals;
