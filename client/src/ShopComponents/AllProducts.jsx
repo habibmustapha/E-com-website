@@ -1,4 +1,5 @@
 import { products, categories } from "../data/DumyData";
+import { Link } from "react-router-dom";
 import ProductCard from "../reused components/ProductCard";
 import { useState } from "react";
 import * as Paginations from "@/components/application/pagination/pagination";
@@ -7,7 +8,7 @@ const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   return (
     <>
-      <section className="py-5 md:py-10 xl-py-20 px-5 md:px-10 xl:px-20">
+      <section className="py-5 md:py-20 xl-py-20 px-5 md:px-10 xl:px-20">
         <h1 className="text-2xl font-bold ">All Products</h1>
         <h3 className="text-lg pb-5">Home/Shop</h3>
         <div className="flex w-full gap-10">
@@ -51,9 +52,11 @@ const AllProducts = () => {
             </div>
           </div>
           <div className="w-9/12 xl:w-10/12 grid-cols-1">
-            <div className=" grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5 md:gap-10 xl:gap-20">
+            <div className=" grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-5">
               {products.map((product) => (
-                <ProductCard key={product.id} products={product} />
+                <Link to={`/product/${product.id}`}>
+                  <ProductCard key={product.id} products={product} />
+                </Link>
               ))}
             </div>
             <div className="pt-5">

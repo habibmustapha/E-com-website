@@ -17,7 +17,7 @@ const Footer = () => {
           ></iframe>
         </div>
         <div className="w-full justify-between grid grid-cols-1 md:flex md:px-20 gap-10 xl:pt-10">
-          <div className="px-20 md:w-1/3 text-2xl xl:px-20">
+          <div className="px-10 md:w-1/3 text-2xl xl:px-20">
             <a href="/shop">
               <h3 className="py-2">Shop</h3>
             </a>
@@ -35,7 +35,7 @@ const Footer = () => {
             </a>
           </div>
 
-          <div className="px-20 md:w-1/3 text-2xl gap-20">
+          <div className="px-5 xl:px-20 md:w-1/3 text-2xl gap-20">
             <div className="flex py-2 items-center gap-5">
               <FaPhoneAlt />
               <a href="/shop">

@@ -10,17 +10,17 @@ import Categories from "./Pages/Category";
 import MainLayouts from "./layouts/MainLayouts";
 import Deals from "./Pages/Deals";
 import NotFound from "./Pages/NotFound";
+import ProductPage from "./Pages/ProductPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayouts />}>
       <Route index element={<Home />} />
       <Route path="/shop" element={<Shop />} />
+      <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/categories" element={<Categories />} />
       <Route path="/deals" element={<Deals />} />
       <Route path="/*" element={<NotFound />} />
-      {/* 
-      <Route path="/product" element={Product} /> */}
     </Route>,
   ),
 );

@@ -9,7 +9,7 @@ const AllCategories = () => {
           <h1 className="text-2xl font-bold">All categories</h1>
           <h3 className="text-lg ">Home / categories</h3>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-8 gap-5 md:gap-10 xl:gap-20">
+        <div className="grid grid-cols-2 md:grid-cols-6 xl:grid-cols-7 gap-5 ">
           {categories.map((category) => (
             <CardCategory key={category.id} category={category} />
           ))}

@@ -9,6 +9,9 @@ import s25 from "../assets/s25.png"
 import Rival from "../assets/Rival.png"
 import ps5 from "../assets/ps5.png"
 import tablet from "../assets/tablet.png"
+import image2 from "../assets/images_2.jpg";
+import image1 from "../assets/images_1.jpg";
+import images from "../assets/images.jpg";
 
 export const categories = [
   {
@@ -62,6 +65,7 @@ export const products = [
     rating: 4.8,
     reviews: 124,
     image: laptop,
+    images :[],
     category: "Laptops",
     featured: true,
   },
@@ -77,13 +81,14 @@ export const products = [
     rating: 4.9,
     reviews: 212,
     image: mac,
+    images:[],
     category: "Laptops",
     featured: true,
   },
   {
     id: 3,
     name: "iPhone 17 Pro",
-    description: "256GB • Titanium",
+    description: "Experience Apple's latest innovation with the iPhone 17 Pro in the stunning Cosmic Orange finish. Crafted with a premium aluminum unibody design, this flagship smartphone combines bold aesthetics with exceptional performance. Powered by the advanced A19 Pro chip, it delivers lightning-fast speed, seamless multitasking, and outstanding energy efficiency. The immersive 6.3-inch Super Retina XDR display with ProMotion technology offers vibrant colors, deep blacks, and ultra-smooth scrolling. Capture every detail with the powerful 48MP triple-camera system, featuring Fusion, Ultra Wide, and Telephoto lenses for professional-quality photos and videos. With Apple Intelligence, all-day battery life, and durable Ceramic Shield protection, the iPhone 17 Pro is built for users who demand performance without compromise.",
     price: 1099,
     promo_price: 0,
     promo : 0,
@@ -92,6 +97,7 @@ export const products = [
     rating: 4.9,
     reviews: 310,
     image: iphone,
+    images:[image2 , image1, images],
     category: "Smartphones",
     featured: true,
   },
@@ -107,6 +113,7 @@ export const products = [
     rating: 3.7,
     reviews: 180,
     image: s25,
+    images:[],
     category: "Smartphones",
     featured: false,
   },
@@ -122,6 +129,7 @@ export const products = [
     rating: 4.6,
     reviews: 90,
     image: logi,
+    images :[],
     category: "Keyboards",
     featured: false,
   },
@@ -137,6 +145,7 @@ export const products = [
     rating: 4.5,
     reviews: 64,
     image: Rival,
+    images :[],
     category: "Accessories",
     featured: false,
   },
@@ -152,6 +161,7 @@ export const products = [
     rating: 4.8,
     reviews: 76,
     image: tablet,
+    images :[],
     category: "Monitors",
     featured: true,
   },
@@ -167,6 +177,7 @@ export const products = [
     rating: 4.9,
     reviews: 420,
     image: ps5,
+    images :[],
     category: "Gaming",
     featured: true,
   },
