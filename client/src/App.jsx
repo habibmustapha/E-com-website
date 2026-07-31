@@ -12,6 +12,7 @@ import Deals from "./Pages/Deals";
 import NotFound from "./Pages/NotFound";
 import ProductPage from "./Pages/ProductPage";
 import Cart from "./Pages/Cart";
+import ContactPage from "./Pages/ContactPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path="/categories" element={<Categories />} />
       <Route path="/deals" element={<Deals />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route path="/*" element={<NotFound />} />
     </Route>,
   ),

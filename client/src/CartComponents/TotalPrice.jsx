@@ -21,7 +21,7 @@ const TotalPrice = () => {
             </tbody>
           </table>
         </div>
-        <button className="bg-primary text-white shadow-lg hover:shadow-xs rounded-lg py-2">
+        <button className="cursor-pointer bg-primary text-white shadow-lg hover:shadow-xs rounded-lg py-2">
           Submit order
         </button>
       </section>

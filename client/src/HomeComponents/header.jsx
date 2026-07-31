@@ -1,8 +1,10 @@
 import logo from "../assets/logoZ.png";
 import icon from "../assets/logoZi.png";
-import profile from "../assets/profile.jpg";
+import { FaPhoneAlt } from "react-icons/fa";
+
+// import profile from "../assets/profile.jpg";
+// import { FaHeart } from "react-icons/fa";
 import { MdShoppingCart } from "react-icons/md";
-import { FaHeart } from "react-icons/fa";
 
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -15,12 +17,12 @@ const Header = () => {
           <a href="/">
             <img
               src={icon}
-              className="w-14 block min-[500px]:hidden"
+              className="w-14 block min-[700px]:hidden"
               alt="logo"
             />
             <img
               src={logo}
-              className="w-64 hidden min-[500px]:block"
+              className="w-64 hidden min-[700px]:block"
               alt="logo"
             />
           </a>
@@ -32,8 +34,8 @@ const Header = () => {
           />
           <CiSearch className="cursor-pointer" />
         </div>
-        <div className="flex w-4/12 justify-end items-center gap-2 md:gap-4 xl:gap-5 pl-2 pr-1 md:pr-4 xl:pr-5">
-          <a>
+        <div className="flex w-4/12 justify-end items-center gap-4 md:gap-4 xl:gap-5 pl-2 pr-1 md:pr-4 xl:pr-5">
+          {/* <a>
             <FaHeart className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 text-primary" />
           </a>
           <a>
@@ -42,9 +44,16 @@ const Header = () => {
               className="h-8 w-8 sm:h-10 sm:w-10 md:h-11 md:w-11 lg:h-12 lg:w-12 border rounded-full border-primary"
               alt="profile_picture"
             />
-          </a>
+          </a> */}
+          <Link to="/contact">
+            <FaPhoneAlt className="block min-[800px]:hidden text-buttons text-xl" />
+
+            <h3 className="hidden min-[800px]:block bg-buttons px-3 py-2 rounded-xl">
+              Contact Us
+            </h3>
+          </Link>
           <Link to={"/cart"}>
-            <MdShoppingCart className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 cursor-pointer text-primary" />
+            <MdShoppingCart className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 cursor-pointer text-buttons" />
           </Link>
         </div>
       </section>
