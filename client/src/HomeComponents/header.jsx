@@ -5,6 +5,7 @@ import { MdShoppingCart } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 
 import { CiSearch } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -42,9 +43,9 @@ const Header = () => {
               alt="profile_picture"
             />
           </a>
-          <a>
-            <MdShoppingCart className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 text-primary" />
-          </a>
+          <Link to={"/cart"}>
+            <MdShoppingCart className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 cursor-pointer text-primary" />
+          </Link>
         </div>
       </section>
     </>

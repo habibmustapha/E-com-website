@@ -11,6 +11,7 @@ import MainLayouts from "./layouts/MainLayouts";
 import Deals from "./Pages/Deals";
 import NotFound from "./Pages/NotFound";
 import ProductPage from "./Pages/ProductPage";
+import Cart from "./Pages/Cart";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/categories" element={<Categories />} />
       <Route path="/deals" element={<Deals />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/*" element={<NotFound />} />
     </Route>,
   ),

@@ -8,7 +8,7 @@ import { FaShieldAlt } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
-      <section className="bg-footer text-gray-400 pb-2">
+      <section className="w-full bg-footer text-gray-400 pb-2">
         <div className="w-full h-64 justify-items-center px-20 py-5">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d203.36227312313352!2d1.3225437277879812!3d35.360699535903805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1286d111111c116b%3A0xf1df6b8f8d49e490!2sHavana%20Food!5e0!3m2!1sen!2sdz!4v1785158768614!5m2!1sen!2sdz"
