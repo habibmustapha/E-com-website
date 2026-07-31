@@ -8,7 +8,7 @@ const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   return (
     <>
-      <section className="py-5 md:py-10 xl:py-20 px-5 ">
+      <section className="py-5 md:py-20 px-5 ">
         <h1 className="text-2xl font-bold ">All Products</h1>
         <h3 className="text-lg py-4 underline">Home / Shop</h3>
         <div className="flex w-full gap-10">

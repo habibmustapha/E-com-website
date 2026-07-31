@@ -1,8 +1,9 @@
-import Hero from "../HomeComponents/hero";
-import CategorySection from "../HomeComponents/categorySection";
-import ProductSection from "../HomeComponents/productSection";
-import Deals from "../HomeComponents/deals";
-import Newsletter from "../HomeComponents/newsletter";
+import Hero from "../HomeComponents/Hero";
+import CategorySection from "../HomeComponents/CategorySection";
+import ProductSection from "../HomeComponents/ProductSection";
+import Deals from "../HomeComponents/Deals";
+import Newsletter from "../HomeComponents/Newsletter";
+import LogoBanner from "../HomeComponents/LogoBanner";
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <ProductSection />
       <Deals />
       <Newsletter />
+      <LogoBanner />
     </>
   );
 };

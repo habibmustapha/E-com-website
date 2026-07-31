@@ -1,5 +1,5 @@
 import { MdShoppingCart } from "react-icons/md";
-import { FaHeart } from "react-icons/fa";
+// import { FaHeart } from "react-icons/fa";
 
 const ProductCard = ({ products }) => {
   return (
@@ -18,9 +18,9 @@ const ProductCard = ({ products }) => {
               <></>
             )}
           </div>
-          <button className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-danger ">
+          {/* <button className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-danger ">
             <FaHeart size={20} />
-          </button>
+          </button> */}
           <img
             src={products.image}
             alt={products.name}

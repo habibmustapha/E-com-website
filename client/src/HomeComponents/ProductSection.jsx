@@ -11,8 +11,8 @@ const ProductSection = () => {
           .filter((product) => product.rating > 4.5)
           .slice(0, 4)
           .map((product) => (
-            <Link to={`/product/${product.id} `}>
-              <ProductCard key={product.id} products={product} />
+            <Link key={product.id} to={`/product/${product.id} `}>
+              <ProductCard products={product} />
             </Link>
           ))}
       </div>
