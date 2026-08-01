@@ -11,14 +11,14 @@ const Product = () => {
   const [activeTab, setActiveTab] = useState("description");
   return (
     <>
-      <section className="py-5 md:py-20 px-5 md:px-20 xl:px-30 bg-background text-text">
+      <section className="py-15 md:py-20 px-5 md:px-20 xl:px-30 bg-background text-text">
         <div>
-          <h3 className="text-xl pb-5 underline underline-offset-4">
+          <h3 className="text-md md:text-xl pb-5 underline underline-offset-4">
             Home / {product.category} / {product.name}
           </h3>
         </div>
-        <div className="flex gap-10">
-          <div className="w-5/12 h-fit border border-gray-300 ">
+        <div className="grid md:flex gap-10">
+          <div className="w-full bg-white md:w-5/12 h-fit border border-gray-300 ">
             <img src={product.image} alt="iphone 17 pro" />
             <div className=" flex  ">
               {product.images.map((pic, index) => (
@@ -31,7 +31,7 @@ const Product = () => {
               ))}
             </div>
           </div>
-          <div className="w-6/12 grid grid-cols-1">
+          <div className="w-full px-5 md:px-0 md:w-6/12 grid grid-cols-1">
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="h-fit min-h-64">{product.description}</p>
             <p>
@@ -86,43 +86,47 @@ const Product = () => {
 
         <div className="w-full border-t border-black mt-10 pb-10">
           <div className="">
-            <ul className="w-full flex gap-10 justify-center text-xl">
+            <ul className="w-full flex gap-7 md:gap-10 justify-center text-md md:text-xl">
               <li
                 onClick={() => setActiveTab("description")}
-                className={`text-xl font-bold pt-3 cursor-pointer ${activeTab === "description" ? "underline decoration-red-500 underline-offset-8" : ""}`}
+                className={` font-bold pt-3 cursor-pointer ${activeTab === "description" ? "underline decoration-red-500 underline-offset-8" : ""}`}
               >
                 Description
               </li>
 
               <li
                 onClick={() => setActiveTab("Characteristics")}
-                className={`text-xl font-bold pt-3 cursor-pointer ${activeTab === "Characteristics" ? "underline decoration-red-500 underline-offset-8" : ""}`}
+                className={` font-bold pt-3 cursor-pointer ${activeTab === "Characteristics" ? "underline decoration-red-500 underline-offset-8" : ""}`}
               >
                 Characteristics
               </li>
 
               <li
                 onClick={() => setActiveTab("reviews")}
-                className={`text-xl font-bold py-3 cursor-pointer ${activeTab === "reviews" ? "underline decoration-red-500 underline-offset-8" : ""}`}
+                className={` font-bold py-3 cursor-pointer ${activeTab === "reviews" ? "underline decoration-red-500 underline-offset-8" : ""}`}
               >
                 Reviews
               </li>
             </ul>
           </div>
           {activeTab === "description" && (
-            <div className="bg-accent rounded-xl w-full h-fit mt-5 px-20 py-10">
-              <h1 className="text-2xl font-bold pb-3">Description</h1>
+            <div className="bg-accent rounded-xl w-full h-fit mt-5 px-10 md:px-20 py-10">
+              <h1 className="text-lg md:text-2xl font-bold pb-3">
+                Description
+              </h1>
               <p>{product.description}</p>
             </div>
           )}
 
           {activeTab === "Characteristics" && (
-            <div className="bg-accent rounded-xl w-full h-fit mt-5 px-20 py-10">
-              <h1 className="text-2xl font-bold pb-3">Characteristics</h1>
+            <div className="bg-accent rounded-xl w-full h-fit mt-5 px-10 mdpx-20 py-10">
+              <h1 className="text-lg md:text-2xl font-bold pb-3">
+                Characteristics
+              </h1>
               <table className="w-full">
                 <tbody>
                   <tr className="h-16 border-b border-gray-300">
-                    <td className="w-2/12">brand </td>
+                    <td className="w-4/12 md:w-2/12">brand </td>
                     <td>Apple</td>
                   </tr>
                   <tr className="h-16 border-b border-gray-300">
