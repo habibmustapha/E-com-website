@@ -4,7 +4,7 @@ import CardCategory from "../reused components/CardCategory";
 const AllCategories = () => {
   return (
     <>
-      <section className="px-5 md:px-10 xl:px-20 py-20 md:py-20 xl:py-40">
+      <section className="bg-background text-text px-5 md:px-10 xl:px-20 py-20 md:py-20 xl:py-40">
         <div className="pb-10">
           <h1 className="text-2xl font-bold">All categories</h1>
           <h3 className="text-lg ">Home / categories</h3>

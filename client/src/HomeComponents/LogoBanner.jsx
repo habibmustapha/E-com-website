@@ -13,7 +13,7 @@ const LogoBanner = () => {
   const duplicatedLogos = [...logos, ...logos];
   return (
     <>
-      <section className="bg-accent overflow-hidden ">
+      <section className="bg-white overflow-hidden ">
         <div className="flex w-max track">
           {duplicatedLogos.map((logo, index) => (
             <img

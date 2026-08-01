@@ -4,7 +4,7 @@ import ProductCard from "../reused components/ProductCard";
 const Deals = () => {
   return (
     <>
-      <section className="px-5 md:px-20 xl:px-28 pt-5">
+      <section className="bg-background text-text px-5 md:px-20 xl:px-28 pt-5">
         <h1 className="font-bold text-2xl pb-10">Flash Deals</h1>
         <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-5 xl:gap-20 pb-20">
           {products

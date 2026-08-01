@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="group relative">
           <a href="/categories">Categories</a>
           <div
-            className="absolute top-10 bg-white w-140 pt-2 px-3 py-3 rounded-lg opacity-0 invisible
+            className="absolute top-10 bg-dropdown text-text w-140 pt-2 px-3 py-3 rounded-lg opacity-0 invisible
        transition-all duration-200
        group-hover:opacity-100
        group-hover:visible"

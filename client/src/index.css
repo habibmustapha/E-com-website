@@ -3,28 +3,71 @@
 @theme {
   --font-sans: "Montserrat", sans-serif;
 
-  --color-primary: #D9B21A;
-  --color-primary-hover: #B89212;
-  --color-footer: #1A1A1A;
-  --color-input:#f4c700;
-  
-  --color-accent: #efefef;
-  --color-buttons: #F4B400;
-  --color-whitebutton:#E8E4D4;
+  /* Brand */
+  --color-primary: #D4AF37;
+  --color-primary-hover: #B68E22;
 
-  --color-background: #FAF8F2;
+  /* Backgrounds */
+  --color-background: #F8F6F1;
   --color-surface: #FFFFFF;
+  --color-accent: #EFECE4;
 
+  /* Text */
   --color-text: #1F2937;
   --color-text-light: #6B7280;
 
+  /* UI */
   --color-border: #E5E7EB;
+  --color-input: #FFF8D8;
 
+  /* Buttons */
+  --color-buttons: #D4AF37;
+  --color-whitebutton: #F2F0E8;
+
+  /* Footer */
+  --color-footer: #18181B;
+  --color-dropdown: #fff;
+  --color-card:#fff;
+
+  /* Status */
   --color-success: #16A34A;
   --color-danger: #DC2626;
 
   --breakpoint-xl: 100rem;
   --breakpoint-2xl: 113rem;
+}
+
+
+.dark {
+  /* Brand */
+  --color-primary: #F4C542;
+  --color-primary-hover: #E3B22D;
+
+  /* Backgrounds */
+  --color-background: #0F172A;
+  --color-surface: #1E293B;
+  --color-accent: #334155;
+
+  /* Text */
+  --color-text: #F8FAFC;
+  --color-text-light: #CBD5E1;
+  --color-card:#1E293B;
+
+  /* UI */
+  --color-border: #475569;
+  --color-input: #1E293B;
+
+  /* Buttons */
+  --color-buttons: #F4C542;
+  --color-whitebutton: #334155;
+
+  /* Footer */
+  --color-footer: #020617;
+
+  /* Status */
+  --color-success: #22C55E;
+  --color-danger: #EF4444;
+  --color-dropdown: #0F172A;
 }
 
 body {

@@ -1,6 +1,8 @@
 import logo from "../assets/logoZ.png";
 import icon from "../assets/logoZi.png";
 import { FaPhoneAlt } from "react-icons/fa";
+import { MdDarkMode } from "react-icons/md";
+import { CiLight } from "react-icons/ci";
 
 // import profile from "../assets/profile.jpg";
 // import { FaHeart } from "react-icons/fa";
@@ -9,10 +11,11 @@ import { MdShoppingCart } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ dark, setDark }) => {
+  // const [dark, setDark] = useState(false);
   return (
     <>
-      <section className="fixed top-0 w-full z-30 border-b border-gray-300  bg-background flex items-center h-24 pr-2 xl:pr-7 ">
+      <section className="fixed top-0 w-full z-30 border-b border-gray-300  bg-background text-text flex items-center h-24 pr-2 xl:pr-7 ">
         <div className="w-3/12 pl-5">
           <a href="/">
             <img
@@ -27,7 +30,7 @@ const Header = () => {
             />
           </a>
         </div>
-        <div className="flex w-5/12 items-center bg-white rounded-full shadow-sm border border-border px-4">
+        <div className="flex w-5/12 items-center bg-card rounded-full shadow-sm border border-border px-4">
           <input
             className="w-full bg-transparent py-2 outline-none"
             placeholder="Search..."
@@ -45,6 +48,21 @@ const Header = () => {
               alt="profile_picture"
             />
           </a> */}
+          <div className="w-20 p-1 bg-accent rounded-2xl">
+            {dark ? (
+              <CiLight
+                size={32}
+                className="justify-self-start text-buttons"
+                onClick={() => setDark(!dark)}
+              />
+            ) : (
+              <MdDarkMode
+                size={32}
+                className="justify-self-end text-left text-buttons"
+                onClick={() => setDark(!dark)}
+              />
+            )}
+          </div>
           <Link to="/contact">
             <FaPhoneAlt className="block min-[800px]:hidden text-buttons text-xl" />
 

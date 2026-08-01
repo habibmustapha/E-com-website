@@ -5,7 +5,7 @@ import ProductCard from "../reused components/ProductCard";
 const AllDeals = () => {
   return (
     <>
-      <section className="py-5 md:py-20 xl-py-20 px-5">
+      <section className="bg-background text-text py-15 md:py-20 xl-py-20 px-5">
         <h1 className="text-2xl font-bold ">Promo Products</h1>
         <h3 className="text-lg py-4 underline">Home / Deal</h3>
         <div className="flex w-full gap-10">

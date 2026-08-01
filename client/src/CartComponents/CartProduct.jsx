@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 const CartProduct = () => {
   return (
     <>
-      <section className="grid md:flex bg-background py-14 md:py-20 xl:py-20 md:px-5 md:pr-10 ">
+      <section className="bg-background text-text grid md:flex py-14 md:py-20 xl:py-20 md:px-5 md:pr-10 ">
         {/* desktop cart */}
         <div className="w-full md:w-8/12 px-5 hidden min-[800px]:block">
           <table className="w-full mt-5 gap-20 ">

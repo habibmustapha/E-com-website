@@ -11,7 +11,7 @@ const Product = () => {
   const [activeTab, setActiveTab] = useState("description");
   return (
     <>
-      <section className="py-5 md:py-20 px-5 md:px-20 xl:px-30">
+      <section className="py-5 md:py-20 px-5 md:px-20 xl:px-30 bg-background text-text">
         <div>
           <h3 className="text-xl pb-5 underline underline-offset-4">
             Home / {product.category} / {product.name}
