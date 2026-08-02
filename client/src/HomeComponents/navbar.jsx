@@ -7,9 +7,10 @@ const Navbar = () => {
   const [IsCategoryOpen, SetIsCategoryOpen] = useState(false);
 
   return (
-    <section className="bg-yellow-500 fixed top-23 md:justify-center w-full z-20 h-10 flex px-6">
+    <section className="overflow-hidden bg-linear-to-r from-buttons via-yellow-300 to-buttons fixed top-23 md:justify-center w-full z-20 h-10 flex shadow-lg px-6">
       {/* Desktop Menu */}
-      <div className="hidden min-[800px]:flex md: text-white gap-16 h-full items-center justify-center text-lg">
+      <span className="w-full absolute bg-white/50 blur-lg shine pointer-events-none inset-y-0 " />
+      <div className="hidden min-[800px]:flex md: text-text gap-16 h-full items-center justify-center text-lg">
         <a href="/">Home</a>
         <a href="/shop">Shop</a>
         <div className="group relative">

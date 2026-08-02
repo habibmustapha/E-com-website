@@ -1,11 +1,8 @@
 import { products, categories } from "../data/DumyData";
 import { Link } from "react-router-dom";
 import ProductCard from "../reused components/ProductCard";
-import { useState } from "react";
-import * as Paginations from "@/components/application/pagination/pagination";
 
 const AllProducts = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   return (
     <>
       <section className="bg-background text-text py-15 md:py-20 px-5 ">
@@ -59,12 +56,12 @@ const AllProducts = () => {
                 </Link>
               ))}
             </div>
-            <div className="pt-5">
+            {/* <div className="pt-5">
               <Paginations.PaginationCardDefault
                 page={currentPage}
                 onPageChange={setCurrentPage}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

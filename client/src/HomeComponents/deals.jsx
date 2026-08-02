@@ -16,9 +16,18 @@ const Deals = () => {
         <div className="flex pb-15 justify-center">
           <a
             href="/shop"
-            className="bg-buttons px-10 py-2 rounded-xl shadow-xl justify-self-center"
+            className="relative overflow-hidden bg-linear-to-r from-buttons via-yellow-300 to-buttons px-10 py-2 rounded-xl shadow-xl justify-self-center group"
           >
-            More Deals
+            <span className="relative">More Deals</span>
+            <span
+              className="
+      shine
+      absolute inset-y-0 -right-10 w-8
+      bg-white/60
+      blur-md
+      pointer-events-none
+    "
+            />
           </a>
         </div>
       </section>

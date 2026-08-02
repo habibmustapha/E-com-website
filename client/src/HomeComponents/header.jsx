@@ -48,16 +48,16 @@ const Header = ({ dark, setDark }) => {
               alt="profile_picture"
             />
           </a> */}
-          <div className="w-20 p-1 bg-accent rounded-2xl">
+          <div className="w-16 p-1 bg-accent rounded-4xl">
             {dark ? (
               <CiLight
-                size={32}
+                size={24}
                 className="justify-self-start text-buttons"
                 onClick={() => setDark(!dark)}
               />
             ) : (
               <MdDarkMode
-                size={32}
+                size={24}
                 className="justify-self-end text-left text-buttons"
                 onClick={() => setDark(!dark)}
               />

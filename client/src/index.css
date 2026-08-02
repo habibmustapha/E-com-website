@@ -79,12 +79,32 @@ body {
     animation: scroll 10s linear infinite;
 }
 
+
 @keyframes scroll {
     from {
         transform: translateX(0);
     }
-
+    
     to {
         transform: translateX(-50%);
     }
+}
+
+
+@keyframes shine {
+  from {
+    transform: translateX(-600px) rotate(70deg);
+    opacity: 0;
+  }
+  50%{
+    opacity: 1;
+  }
+  to {
+    transform: translateX(600px) rotate(70deg);
+    opacity: 0;
+  }
+}
+
+.shine {
+  animation: shine 2.5s infinite;
 }

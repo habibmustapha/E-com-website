@@ -13,19 +13,26 @@ import NotFound from "./Pages/NotFound";
 import ProductPage from "./Pages/ProductPage";
 import Cart from "./Pages/Cart";
 import ContactPage from "./Pages/ContactPage";
+import Login from "./Pages/admin/Login";
+import Dashboard from "./admin/components/Dashboard/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<MainLayouts />}>
-      <Route index element={<Home />} />
-      <Route path="/shop" element={<Shop />} />
-      <Route path="/product/:id" element={<ProductPage />} />
-      <Route path="/categories" element={<Categories />} />
-      <Route path="/deals" element={<Deals />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/*" element={<NotFound />} />
-    </Route>,
+    <>
+      <Route path="/" element={<MainLayouts />}>
+        <Route index element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/deals" element={<Deals />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/*" element={<NotFound />} />
+      </Route>
+
+      <Route path="/admin/login" element={<Login />} />
+      <Route path="/admin" element={<Dashboard />} />
+    </>,
   ),
 );
 

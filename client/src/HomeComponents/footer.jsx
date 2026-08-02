@@ -22,7 +22,7 @@ const Footer = () => {
               <h3 className="py-2">Shop</h3>
             </a>
             <a href="/About">
-              <h3 className="py-2">About S</h3>
+              <h3 className="py-2">About US</h3>
             </a>
             <a href="/hiring">
               <h3 className="py-2">Hiring</h3>

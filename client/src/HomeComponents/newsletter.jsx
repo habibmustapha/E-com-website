@@ -10,10 +10,10 @@ const Newsletter = () => {
         </div>
         <div className="flex gap-5">
           <input
-            className="bg-input w-82 px-3 py-2 rounded-xl "
+            className="bg-yellow-50 w-82 px-3 py-2 rounded-xl shadow-lg"
             placeholder="Enter your email"
           ></input>
-          <button className="px-3 py-2 cursor-pointer bg-whitebutton rounded-xl font-semibold">
+          <button className="px-3 py-2 cursor-pointer bg-accent rounded-xl shadow-lg font-semibold">
             Subscribe
           </button>
         </div>
