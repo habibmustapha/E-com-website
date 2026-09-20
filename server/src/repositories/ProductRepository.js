@@ -9,6 +9,8 @@ const ProductRepository = {
             p.qty,
             p.description,
             p.image_url,
+            p.rating,
+            p.promo_price,
             c.name AS category
         FROM products p
         JOIN category c
