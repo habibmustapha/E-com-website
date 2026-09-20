@@ -24,8 +24,8 @@ const Analytics = () => {
       <section className="bg-background p-5 pb-0">
         <div className="flex justify-between gap-4">
           <div className="w-1/5 grid bg-surface p-5 rounded-2xl shadow-md">
-            <div className="flex justify-between p-2 pb-5">
-              <h1 className="text-lg text-gray-400 font-semibold">
+            <div className="flex justify-between items-center p-2 pb-5">
+              <h1 className="text-lg md:text-sm text-gray-400 font-semibold">
                 Profit margin
               </h1>
               <div className="text-sm bg-green-300/80 p-1 h-fit rounded-md">
@@ -33,7 +33,7 @@ const Analytics = () => {
               </div>
             </div>
             <div className="flex justify-between items-center p-2">
-              <h1 className="text-2xl font-semibold">134 000 DZ</h1>
+              <h1 className="text-2xl md:text-lg font-semibold">134 000 DZ</h1>
               <div className="bg-green-400 rounded-full p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -58,14 +58,16 @@ const Analytics = () => {
           </div>
 
           <div className="w-1/5 grid bg-surface p-5 rounded-2xl shadow-md">
-            <div className="flex justify-between p-2 pb-5">
-              <h1 className="text-lg text-gray-400 font-semibold">Orders</h1>
+            <div className="flex justify-between items-center p-2 pb-5">
+              <h1 className="text-lg md:text-sm text-gray-400 font-semibold">
+                Orders
+              </h1>
               <div className="text-sm bg-green-300/80 p-1 h-fit rounded-md">
                 <h3 className="text-green-900 font-medium">+11%</h3>
               </div>
             </div>
             <div className="flex justify-between items-center p-2">
-              <h1 className="text-2xl font-semibold">3</h1>
+              <h1 className="text-xl xl:text-2xl font-semibold">3</h1>
               <div className="bg-green-400 rounded-full p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +93,7 @@ const Analytics = () => {
 
           <div className="w-1/5 grid bg-surface p-5 rounded-2xl shadow-md">
             <div className="flex justify-between p-2 pb-5">
-              <h1 className="text-lg text-gray-400 font-thin">
+              <h1 className="text-lg md:text-sm text-gray-400 font-semibold">
                 Avg. Order value
               </h1>
               <div className="text-sm bg-red-300/80 p-1 h-fit rounded-md">
@@ -125,7 +127,9 @@ const Analytics = () => {
 
           <div className="w-1/5 grid bg-surface p-5 rounded-2xl shadow-md">
             <div className="flex justify-between p-2 pb-5">
-              <h1 className="text-lg text-gray-400 font-semibold">Unit Sold</h1>
+              <h1 className="text-lg md:text-sm text-gray-400 font-semibold">
+                Unit Sold
+              </h1>
               <div className="text-sm bg-red-300/80 p-1 h-fit rounded-md">
                 <h3 className="text-red-900 font-medium">-8%</h3>
               </div>
@@ -156,7 +160,7 @@ const Analytics = () => {
           </div>
           <div className="w-1/5 grid bg-surface p-5 rounded-2xl shadow-md">
             <div className="flex justify-between p-2 pb-5">
-              <h1 className="text-lg text-gray-400 font-semibold">
+              <h1 className="text-lg md:text-sm text-gray-400 font-semibold">
                 Abandonned carts
               </h1>
               <div className="text-sm bg-green-300/80 p-1 h-fit rounded-md">

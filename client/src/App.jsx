@@ -21,6 +21,7 @@ import Categories from "./admin/components/Dashboard/Categories";
 import Orders from "./admin/components/Dashboard/Orders";
 import Clients from "./admin/components/Dashboard/Clients";
 import Analytics from "./admin/components/Dashboard/Analytics";
+import AI from "./admin/components/Dashboard/AI";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<MainLayouts />}>
         <Route index element={<Home />} />
         <Route path="/shop" element={<Shop />} />
-        <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/categories" element={<Category />} />
         <Route path="/deals" element={<Deals />} />
         <Route path="/cart" element={<Cart />} />
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         <Route path="orders" element={<Orders />} />
         <Route path="customers" element={<Clients />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="Ai" element={<AI />} />
       </Route>
     </>,
   ),

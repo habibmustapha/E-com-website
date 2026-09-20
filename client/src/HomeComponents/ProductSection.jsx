@@ -23,8 +23,8 @@ const ProductSection = () => {
         setLoading(false);
       }
     };
-    (fetchProduct(), []);
-  });
+    fetchProduct();
+  }, []);
 
   if (loading) {
     return (
