@@ -42,9 +42,12 @@ const ProductSection = () => {
           </h1>
           <h1 className="font-semibold text-4xl pb-5">Top picks for You </h1>
         </div>
-        <div className="text-buttons h-fit flex gap-2">
-          <h1>View all products</h1>
-          <FaArrowRight />
+
+        <div className="h-28 flex text-buttons gap-2 justify-end pb-4 items-end ">
+          <div className="flex gap-2 items-center">
+            <h1>View all products</h1>
+            <FaArrowRight />
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-5 xl:gap-20 cursor-pointer">
