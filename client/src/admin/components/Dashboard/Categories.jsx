@@ -67,6 +67,7 @@ const Categories = () => {
                         src={category.image_url}
                         alt={category.name}
                         className="w-20 h-20 object-cover rounded-lg"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-20 h-20 rounded-lg bg-gray-200 flex items-center justify-center text-sm">

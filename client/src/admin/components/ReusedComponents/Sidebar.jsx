@@ -8,6 +8,7 @@ import {
   TicketPercent,
   ChartColumn,
   Settings,
+  Sparkles,
   LogOut,
 } from "lucide-react";
 import logo from "../../../assets/logoZ.png";
@@ -19,9 +20,10 @@ const links = [
   { name: "Categories", icon: FolderTree, path: "/admin/categories" },
   { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
   { name: "Customers", icon: Users, path: "/admin/customers" },
-  { name: "Reviews", icon: Star, path: "/admin/reviews" },
-  { name: "Coupons", icon: TicketPercent, path: "/admin/coupons" },
   { name: "Analytics", icon: ChartColumn, path: "/admin/analytics" },
+  { name: "AI Assistant", icon: Sparkles, path: "/admin/AI" },
+  { name: "Coupons", icon: TicketPercent, path: "/admin/coupons" },
+  { name: "Reviews", icon: Star, path: "/admin/reviews" },
   { name: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 

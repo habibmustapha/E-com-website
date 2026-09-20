@@ -65,6 +65,7 @@ const Products = () => {
                       src={product.image_url}
                       alt={product.name}
                       className="w-16 h-16 object-cover rounded-lg"
+                      loading="lazy"
                     />
                   </td>
                   <td className="px-2 py-2">
