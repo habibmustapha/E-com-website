@@ -1,8 +1,57 @@
 import { Link } from "react-router-dom";
-import { products, categories } from "../data/DumyData";
+import { useState, useEffect } from "react";
 import ProductCard from "../reused components/ProductCard";
 
 const AllDeals = () => {
+  const [deal, setDeals] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDeals = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/products");
+
+        if (!response.ok) {
+          throw new Error("failed to detch");
+        }
+
+        const data = await response.json();
+        setDeals(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    (fetchDeals(), []);
+  });
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/categories");
+
+        if (!response.ok) {
+          throw new Error("failed to detch");
+        }
+
+        const data = await response.json();
+        setCategories(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    (fetchCategories(), []);
+  });
+  if (loading) {
+    return (
+      <section className="bg-background text-text py-15 md:py-20 px-5">
+        <p>Loading deals...</p>
+      </section>
+    );
+  }
   return (
     <>
       <section className="bg-background text-text py-15 md:py-20 xl-py-20 px-5">
@@ -49,9 +98,9 @@ const AllDeals = () => {
             </div>
           </div>
           <div className="w-full md:w-10/12 xl:w-10/12 grid-cols-1">
-            <div className="cursor-pointer grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-5 ">
-              {products
-                .filter((product) => product.promo > 0)
+            <div className="cursor-pointer grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-5 ">
+              {deal
+                .filter((product) => product.promo_price)
                 .map((product) => (
                   <Link to={`/product/${product.id}`}>
                     <ProductCard key={product.id} products={product} />

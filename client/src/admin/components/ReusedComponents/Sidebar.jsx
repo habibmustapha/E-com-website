@@ -10,6 +10,7 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import logo from "../../../assets/logoZ.png";
 import { NavLink } from "react-router-dom";
 
 const links = [
@@ -26,12 +27,13 @@ const links = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-72 h-screen bg-slate-900 text-white flex flex-col">
+    <aside className="w-72 h-screen bg-slate-900 text-white top-0 flex flex-col">
       {/* Logo */}
       <div className="h-20 flex items-center justify-center border-b border-slate-800">
-        <h1 className="text-2xl font-black tracking-wide text-primary">
-          BuyBay
-        </h1>
+        {/* <h1 className="text-2xl font-black tracking-wide text-primary">
+          
+        </h1> */}
+        <img src={logo} alt="" />
       </div>
 
       {/* Navigation */}

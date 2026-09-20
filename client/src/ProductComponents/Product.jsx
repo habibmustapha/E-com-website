@@ -1,41 +1,79 @@
-import { products } from "../data/DumyData";
 import { MdShoppingCart } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Product = () => {
   const { id } = useParams();
 
-  const product = products.find((p) => p.id === Number(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/api/products/${id}`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch product");
+        }
+
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   const [activeTab, setActiveTab] = useState("description");
+
+  if (loading) {
+    return <div className="p-10">Loading...</div>;
+  }
+
+  if (!product) {
+    return <div className="p-10">Product not found.</div>;
+  }
+
   return (
     <>
       <section className="py-15 md:py-20 px-5 md:px-20 xl:px-30 bg-background text-text">
         <div>
           <h3 className="text-md md:text-xl pb-5 underline underline-offset-4">
-            Home / {product.category} / {product.name}
+            Home / {product.cat_id} / {product.name}
           </h3>
         </div>
         <div className="grid md:flex gap-10">
           <div className="w-full bg-white md:w-5/12 h-fit border border-gray-300 ">
-            <img src={product.image} alt="iphone 17 pro" />
+            {product.image_url ? (
+              <img src={product.image_url} alt="iphone 17 pro" />
+            ) : (
+              <div className="h-80 flex items-center justify-center">
+                <span>No image available</span>
+              </div>
+            )}
             <div className=" flex  ">
-              {product.images.map((pic, index) => (
+              {/* {product.image_url.map((pic, index) => (
                 <img
                   key={index}
                   src={pic}
                   className="w-1/3 border border-gray-300"
                   alt=""
                 />
-              ))}
+              ))} */}
             </div>
           </div>
           <div className="w-full px-5 md:px-0 md:w-6/12 grid grid-cols-1">
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="h-fit min-h-64">{product.description}</p>
             <p>
-              <span className="font-bold">category:</span> {product.category}
+              <span className="font-bold">category:</span> {product.cat_id}
             </p>
             <p>
               <span className="font-bold">brand:</span> Iphone
@@ -43,16 +81,16 @@ const Product = () => {
 
             <div>
               <div className="h-10">
-                {product.stock > 0 ? (
+                {product.qty > 0 ? (
                   <p className="text-base text-green-700"> In Stock </p>
                 ) : (
                   <p className="text-base text-red-700"> Out Of Stock </p>
                 )}
 
-                {product.stock < 3 ? (
+                {product.qty > 0 && product.qty < 3 ? (
                   <div className="w-fit px-3 z-10 bg-danger rounded-2xl">
                     <h3 className="text-xs text-white">
-                      only {product.stock} left
+                      only {product.qty} left
                     </h3>
                   </div>
                 ) : (

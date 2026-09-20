@@ -1,8 +1,16 @@
 import { Bell, Search, ChevronDown } from "lucide-react";
+import admin from "../../assets/admin.png";
 
 const TopNavbar = () => {
   return (
-    <header className="h-20 bg-white border-b px-8 flex items-center justify-between">
+    <header className="h-20 bg-white border-b border-gray-300 px-8 flex items-center w-full justify-between">
+      <div>
+        <h1 className="text-2xl font-semibold">Welcom back! Admin</h1>
+        <h3 className="text-md">
+          Here are today's stats from your online store!
+        </h3>
+      </div>
+
       {/* Search */}
       <div className="relative w-96">
         <Search
@@ -26,11 +34,7 @@ const TopNavbar = () => {
         </button>
 
         <div className="flex items-center gap-3 cursor-pointer">
-          <img
-            src="https://i.pravatar.cc/100"
-            alt=""
-            className="w-10 h-10 rounded-full"
-          />
+          <img src={admin} alt="" className="w-10 h-10 rounded-full" />
 
           <div>
             <p className="font-semibold">Admin</p>

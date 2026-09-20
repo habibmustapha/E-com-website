@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -8,7 +9,7 @@
   --color-primary-hover: #B68E22;
 
   /* Backgrounds */
-  --color-background: #F8F6F1;
+  --color-background: #FAF9F6;
   --color-surface: #FFFFFF;
   --color-accent: #EFECE4;
 
@@ -21,7 +22,7 @@
   --color-input: #FFF8D8;
 
   /* Buttons */
-  --color-buttons: #D4AF37;
+  --color-buttons: #D4A514;
   --color-whitebutton: #F2F0E8;
 
   /* Footer */
@@ -105,6 +106,24 @@ body {
   }
 }
 
+@keyframes shin {
+  from {
+    transform: translateX(-1600px) rotate(35deg);
+    opacity: 0;
+  }
+  50%{
+    opacity: 1;
+  }
+  to {
+    transform: translateX(600px) rotate(35deg);
+    opacity: 0;
+  }
+}
+
 .shine {
   animation: shine 2.5s infinite;
+}
+
+.shin {
+  animation: shin 4.5s infinite;
 }

@@ -10,7 +10,7 @@ const Hero = () => {
 
   return (
     <>
-      <section className="mt-20 bg-linear-to-r from-yellow-500 to-yellow-200 h-96 shadow-xl 2xl:h-125">
+      <section className="mt-40 h-110 px-12 rounded-2xl shadow-xl 2xl:h-125">
         <ImageSlider slides={slides} />
       </section>
     </>
