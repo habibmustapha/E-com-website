@@ -10,6 +10,7 @@ const ProductRepository = {
             p.description,
             p.image_url,
             p.rating,
+            p.brand,
             p.promo_price,
             c.name AS category
         FROM products p
@@ -20,7 +21,7 @@ const ProductRepository = {
 
     async getProductById(id){
         const result = await db.query(
-            `SELECT * FROM products WHERE id = $1`
+            `SELECT * FROM products WHERE id = $1` ,
             [id]
         );
             return result.rows[0];

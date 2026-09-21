@@ -1,51 +1,40 @@
 import db from "../config/db.js";
 
-const orderItemRepository = {
-
+const OrderRepository = {
     async getAllOrders() {
         const result = await db.query(
-            `SELECT
-                oi.order_id,
-                p.name,
-                oi.qty,
-                oi.unit_price
-            FROM orderitems oi
-            JOIN products p
-            ON oi.product_id = p.id;`
+            `SELECT *
+             FROM orders
+             WHERE deleted = false
+             ORDER BY created_at DESC;`
         );
+
         return result.rows;
     },
 
     async getOrderById(id) {
         const result = await db.query(
-            `SELECT
-                oi.order_id,
-                p.name,
-                oi.qty,
-                oi.unit_price
-            FROM orderitems oi
-            JOIN products p
-            ON oi.product_id = p.id
-            WHERE id=$1`,
+            `SELECT *
+             FROM orders
+             WHERE id = $1
+             AND deleted = false;`,
             [id]
         );
 
-        return result.rows[0]
+        return result.rows[0];
     },
-    
+
     async getOrderByUserId(id) {
         const result = await db.query(
-            `SELECT
-                o.id,
-                u.username,
-                o.total_price,
-                o.status
-            FROM orders o
-            JOIN users u
-            ON o.user_id = u.id;`
+            `SELECT *
+             FROM orders
+             WHERE user_id = $1
+             AND deleted = false
+             ORDER BY created_at DESC;`,
+            [id]
         );
 
-        return result.rows[0]
+        return result.rows;
     },
 
     async createOrder(order) {
@@ -60,15 +49,39 @@ const orderItemRepository = {
             status,
             wilaya,
             communes
-        } = order
+        } = order;
+
         const result = await db.query(
             `INSERT INTO orders
-                (first_name,last_name,user_id,email,address,phone,total_price,status,wilaya,communes) 
-            VALUES 
+                (
+                    first_name,
+                    last_name,
+                    user_id,
+                    email,
+                    address,
+                    phone,
+                    total_price,
+                    status,
+                    wilaya,
+                    communes
+                )
+             VALUES
                 ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-            RETURNING *`,
-            [first_name,last_name,user_id,email,address,phone,total_price,status,wilaya,communes]
+             RETURNING *;`,
+            [
+                first_name,
+                last_name,
+                user_id,
+                email,
+                address,
+                phone,
+                total_price,
+                status,
+                wilaya,
+                communes
+            ]
         );
+
         return result.rows[0];
     },
 
@@ -82,12 +95,13 @@ const orderItemRepository = {
             total_price,
             phone,
             wilaya,
-            commune,
+            communes,
             status
-        } = order
+        } = order;
+
         const result = await db.query(
             `UPDATE orders
-            SET 
+             SET
                 first_name = $1,
                 last_name = $2,
                 email = $3,
@@ -96,25 +110,42 @@ const orderItemRepository = {
                 total_price = $6,
                 phone = $7,
                 wilaya = $8,
-                commune = $9,
-                status = $10
-                WHERE id = $11
-            RETURNING *`,
-            [first_name,last_name,email,user_id,address,total_price,phone,wilaya,commune,status, id]
+                communes = $9,
+                status = $10,
+                updated_at = CURRENT_TIMESTAMP
+             WHERE id = $11
+             RETURNING *;`,
+            [
+                first_name,
+                last_name,
+                email,
+                user_id,
+                address,
+                total_price,
+                phone,
+                wilaya,
+                communes,
+                status,
+                id
+            ]
         );
+
         return result.rows[0];
     },
 
     async deleteOrder(id) {
         const result = await db.query(
             `UPDATE orders
-            SET deleted = True
-            WHERE id=$1 RETURNING *`,
+             SET
+                deleted = true,
+                updated_at = CURRENT_TIMESTAMP
+             WHERE id = $1
+             RETURNING *;`,
             [id]
         );
+
         return result.rows[0];
     },
-
 };
 
-export default orderItemRepository
+export default OrderRepository;
