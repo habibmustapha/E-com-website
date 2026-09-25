@@ -28,6 +28,7 @@ import LoginUser from "./reused components/Login";
 import Register from "./reused components/Register";
 import EditProduct from "./admin/components/Dashboard/EditProduct";
 import ProfileLayouts from "./layouts/ProfileLayouts";
+import OrderDashboard from "./AccountComponents/OrderDashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,7 +47,7 @@ const router = createBrowserRouter(
 
       <Route path="/profile" element={<ProfileLayouts />}>
         <Route path="info" element={<ProfileDashboard />} />
-        <Route path="Orders" element={<ProfileDashboard />} />
+        <Route path="Orders" element={<OrderDashboard />} />
         <Route path="Saved-items" element={<ProfileDashboard />} />
         <Route path="track-order" element={<ProfileDashboard />} />
       </Route>

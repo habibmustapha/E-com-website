@@ -24,18 +24,34 @@ const OrderRepository = {
         return result.rows[0];
     },
 
-    async getOrderByUserId(id) {
-        const result = await db.query(
-            `SELECT *
-             FROM orders
-             WHERE user_id = $1
-             AND deleted = false
-             ORDER BY created_at DESC;`,
-            [id]
-        );
+    async getOrdersByUserId(userId) {
+    const result = await db.query(
+        `
+        SELECT
+            o.id AS order_id,
+            o.created_at,
+            o.status,
+            o.total_price,
+            oi.id AS item_id,
+            oi.product_id,
+            oi.qty,
+            oi.unit_price,
+            p.name AS product_name,
+            p.image_url
+        FROM orders o
+        JOIN orderitems oi
+            ON oi.order_id = o.id
+        JOIN products p
+            ON p.id = oi.product_id
+        WHERE o.user_id = $1
+          AND o.deleted = false
+        ORDER BY o.created_at DESC
+        `,
+        [userId]
+    );
 
-        return result.rows;
-    },
+    return result.rows;
+},
 
     async createOrder(order) {
         const {

@@ -28,6 +28,24 @@ const orderController = {
         }
     },
 
+    async getOrdersByUserId(req, res) {
+    try {
+        console.log("AUTHENTICATED USER:", req.user);
+        
+        const userId = req.user.id;
+
+        const orders = await OrderRepository.getOrdersByUserId(userId);
+
+        res.status(200).json(orders);
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: "Cannot fetch orders"
+        });
+    }
+},
+
     async createOrder(req, res) {
         try {
             const cart = await OrderRepository.createOrder(req.body);
