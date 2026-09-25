@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const [product, setProduct] = useState(null);
   const [loding, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -79,7 +81,12 @@ const Products = () => {
                   </td>
                   <td>
                     <div className="px-2 py-2 flex items-center gap-4">
-                      <div className="h-10 w-10 rounded-lg bg-green-600 flex items-center justify-center ">
+                      <div
+                        onClick={() =>
+                          navigate(`/admin/products/${product.id}/edit`)
+                        }
+                        className="h-10 w-10 rounded-lg bg-green-600 flex items-center justify-center "
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"

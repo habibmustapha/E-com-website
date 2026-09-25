@@ -29,6 +29,16 @@ const CartRepository = {
         return result.rows[0];
     },
 
+    async getOrCreateCart(user_id) {
+        let cart = await this.getCartByUserId(user_id);
+
+        if(!cart) {
+            cart = await this.createCart(user_id);
+        }
+
+        return cart
+    },
+
 
     async deleteCart(id) {
         const result = await db.query(

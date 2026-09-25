@@ -21,7 +21,7 @@ const ProductRepository = {
 
     async getProductById(id){
         const result = await db.query(
-            `SELECT * FROM products WHERE id = $1` ,
+            `SELECT products.*, category.name AS cat_name FROM products JOIN category ON products.cat_id = category.id WHERE products.id = $1 ` ,
             [id]
         );
             return result.rows[0];
@@ -55,7 +55,9 @@ const ProductRepository = {
             image_url,
             description,
             qty, 
-            deleted
+            brand,
+            rating,
+            promo_price
         } = product;
 
         const result = await db.query(
@@ -67,10 +69,13 @@ const ProductRepository = {
                 image_url = $4,
                 description = $5,
                 qty = $6,
-                deleted = $7
-            WHERE id=$8
+                brand = $7,
+                rating=$8,
+                promo_price =$9,
+                updated_at = NOW()
+            WHERE id=$10
             RETURNING *`,
-            [name , price, cat_id, image_url, description, qty, deleted, id]
+            [name , price, cat_id, image_url, description, qty, brand, rating ?? 0, promo_price || null, id]
         );
         return result.rows[0];
     },

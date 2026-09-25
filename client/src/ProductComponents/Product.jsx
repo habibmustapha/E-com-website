@@ -7,6 +7,7 @@ const Product = () => {
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  // const [info, setInfo] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -20,6 +21,7 @@ const Product = () => {
         }
 
         const data = await response.json();
+
         setProduct(data);
       } catch (error) {
         console.error(error);
@@ -46,7 +48,7 @@ const Product = () => {
       <section className="py-15 md:py-20 px-5 md:px-20 xl:px-30 bg-background text-text">
         <div>
           <h3 className="text-md md:text-xl pb-5 underline underline-offset-4">
-            Home / {product.cat_id} / {product.name}
+            Home / {product.cat_name} / {product.name}
           </h3>
         </div>
         <div className="grid md:flex gap-10">
@@ -73,7 +75,7 @@ const Product = () => {
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="h-fit min-h-64">{product.description}</p>
             <p>
-              <span className="font-bold">category:</span> {product.cat_id}
+              <span className="font-bold">category:</span> {product.cat_name}
             </p>
             <p>
               <span className="font-bold">brand:</span> Iphone
@@ -165,11 +167,11 @@ const Product = () => {
                 <tbody>
                   <tr className="h-16 border-b border-gray-300">
                     <td className="w-4/12 md:w-2/12">brand </td>
-                    <td>Apple</td>
+                    <td>{product.brand}</td>
                   </tr>
                   <tr className="h-16 border-b border-gray-300">
                     <td>Model </td>
-                    <td>iphone 17 pro</td>
+                    <td>{product.name}</td>
                   </tr>
                   <tr className="h-16 border-b border-gray-300">
                     <td>Memory </td>

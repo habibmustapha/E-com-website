@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import Shop from "./Pages/Shop";
 import Category from "./Pages/Category";
 import MainLayouts from "./layouts/MainLayouts";
+import ProfileDashboard from "./AccountComponents/ProfileDashboard";
 import Deals from "./Pages/Deals";
 import NotFound from "./Pages/NotFound";
 import ProductPage from "./Pages/ProductPage";
@@ -23,6 +24,10 @@ import Clients from "./admin/components/Dashboard/Clients";
 import Analytics from "./admin/components/Dashboard/Analytics";
 import AI from "./admin/components/Dashboard/AI";
 import AboutUs from "./aboutUs/AboutUs";
+import LoginUser from "./reused components/Login";
+import Register from "./reused components/Register";
+import EditProduct from "./admin/components/Dashboard/EditProduct";
+import ProfileLayouts from "./layouts/ProfileLayouts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +44,15 @@ const router = createBrowserRouter(
         <Route path="/*" element={<NotFound />} />
       </Route>
 
+      <Route path="/profile" element={<ProfileLayouts />}>
+        <Route path="info" element={<ProfileDashboard />} />
+        <Route path="Orders" element={<ProfileDashboard />} />
+        <Route path="Saved-items" element={<ProfileDashboard />} />
+        <Route path="track-order" element={<ProfileDashboard />} />
+      </Route>
+      <Route path="/login" element={<LoginUser />} />
+      <Route path="/Register" element={<Register />} />
+
       <Route path="/admin/login" element={<Login />} />
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
@@ -47,6 +61,7 @@ const router = createBrowserRouter(
         <Route path="orders" element={<Orders />} />
         <Route path="customers" element={<Clients />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="products/:id/edit" element={<EditProduct />} />
         <Route path="Ai" element={<AI />} />
       </Route>
     </>,

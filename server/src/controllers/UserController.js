@@ -45,7 +45,7 @@ const userController = {
                 email: userData.email,
                 profile_image: userData.profile_image || null,
                 phone: userData.phone,
-                ps_hash: ps_hash,  // ← Use hashed password
+                ps_hash: ps_hash,  
                 activated: userData.activated || false,
                 role : userData.role || "customer"
             };
