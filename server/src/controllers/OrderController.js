@@ -46,16 +46,40 @@ const orderController = {
 },
 
     async createOrder(req, res) {
-        try {
-            const cart = await OrderRepository.createOrder(req.body);
-            res.status(200).json(cart);
-        } catch (err) {
-            console.error(err);
-            res.status(400).json({
-                message: "Cannot create cart"
-            });
-        }
-    },
+    try {
+        const {
+            first_name,
+            last_name,
+            address,
+            phone,
+            total_price,
+            wilaya,
+            communes
+        } = req.body;
+
+        const order = await OrderRepository.createOrder({
+            first_name,
+            last_name,
+            user_id: req.user.id,
+            email: req.user.email,
+            address,
+            phone,
+            total_price,
+            status: "pending",
+            wilaya,
+            communes
+        });
+
+        res.status(201).json(order);
+
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: "Cannot create order"
+        });
+    }
+},
 
     async updateOrder(req, res) {
         try {

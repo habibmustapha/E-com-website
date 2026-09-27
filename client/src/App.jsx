@@ -32,6 +32,7 @@ import EditProduct from "./admin/components/Dashboard/EditProduct";
 import ProfileLayouts from "./layouts/ProfileLayouts";
 import OrderDashboard from "./AccountComponents/OrderDashboard";
 import AdminProtectedRoute from "./reused components/AdminProtectedRoute";
+import Checkout from "./CheckoutComponent/Checkout";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const router = createBrowserRouter(
         <Route path="/categories" element={<Category />} />
         <Route path="/deals" element={<Deals />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/*" element={<NotFound />} />

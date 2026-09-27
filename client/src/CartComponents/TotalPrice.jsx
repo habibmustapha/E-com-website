@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 const TotalPrice = ({ cartItems }) => {
+  const navigate = useNavigate();
   const shippingFee = 900;
 
   const subTotal = cartItems.reduce(
@@ -39,8 +41,11 @@ const TotalPrice = ({ cartItems }) => {
         </table>
       </div>
 
-      <button className="cursor-pointer bg-primary text-white shadow-lg hover:shadow-xs rounded-lg py-2">
-        Submit order
+      <button
+        onClick={() => navigate("/checkout")}
+        className="cursor-pointer bg-primary text-white shadow-lg hover:shadow-xs rounded-lg py-2"
+      >
+        Proceed to Checkout
       </button>
     </section>
   );

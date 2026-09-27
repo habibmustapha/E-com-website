@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", authMiddleware, orderController.getAllOrders);
 router.get("/user", authMiddleware, orderController.getOrdersByUserId);
 router.get("/:id", authMiddleware, orderController.getOrderById);
-router.post("/", orderController.createOrder);
+router.post("/", authMiddleware, orderController.createOrder);
 router.put("/:id",authMiddleware, orderController.updateOrder);
 router.delete("/:id", authMiddleware, orderController.deleteOrder);
 

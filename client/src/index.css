@@ -120,6 +120,20 @@ body {
   }
 }
 
+.checkout-progress {
+  animation: checkoutProgress 3s linear forwards;
+}
+
+@keyframes checkoutProgress {
+  from {
+    stroke-dashoffset: 100;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 .shine {
   animation: shine 2.5s infinite;
 }
