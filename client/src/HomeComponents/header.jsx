@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
   // const [dark, setDark] = useState(false);
   const [search, setSearch] = useState("");
+  const [cartCount, setCartCount] = useState(0);
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
 
@@ -26,6 +27,38 @@ const Header = () => {
       }
     };
     fetchResults();
+  }, []);
+
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/cart/user", {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          setCartCount(0);
+          return;
+        }
+
+        const data = await response.json();
+
+        const count = data.items.length;
+
+        setCartCount(count);
+      } catch (err) {
+        console.error("Failed to fetch cart count:", err);
+        setCartCount(0);
+      }
+    };
+
+    fetchCartCount();
+
+    window.addEventListener("cartUpdated", fetchCartCount);
+
+    return () => {
+      window.removeEventListener("cartUpdated", fetchCartCount);
+    };
   }, []);
 
   const filteredResults = search.trim()
@@ -87,7 +120,7 @@ const Header = () => {
         </div>
 
         <div className="flex w-4/12 justify-end items-center gap-4 md:gap-4 xl:gap-5 pl-2 pr-1 md:pr-4 xl:pr-5">
-          <div className="grid grid-cols-1">
+          {/* <div className="grid grid-cols-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -104,7 +137,7 @@ const Header = () => {
               <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
             </svg>
             <h1 className="text-center justify-center min-w">Wishlist</h1>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1">
             <Link to={"/profile/edit"}>
@@ -147,7 +180,7 @@ const Header = () => {
                 <circle cx="8" cy="20" r="2" />
               </svg>
               <div className=" bg-danger absolute -top-2 -right-2 justify-center items-center min-w-5 h-5 px-1 rounded-full">
-                <h4 className="text-sm text-white text-center">2</h4>
+                <h4 className="text-sm text-white text-center">{cartCount}</h4>
               </div>
               <h1 className="text-center justify-center min-w">Cart</h1>
             </div>

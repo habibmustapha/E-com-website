@@ -27,7 +27,7 @@ const ImageSlider = ({ slides }) => {
         <img
           src={slides[currentIndex].url}
           alt={slides[currentIndex].title}
-          className="w-full h-full object-fill rounded-2xl"
+          className="w-full h-full object-fill rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.15)]"
         />
       </div>
       <div className="flex gap-5 text-4xl justify-center cursor-pointer text-yellow-500">

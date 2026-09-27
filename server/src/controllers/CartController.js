@@ -17,17 +17,28 @@ const cartController = {
     },
 
     async getCartByUserId(req, res) {
-        try {
-            const id = req.params.id;
-            const cart = await CartRepository.getCartByUserId(id);
-            res.status(200).json(cart);
-        } catch (err) {
-            console.error(err);
-            res.status(400).json({
-                message: "Cannot fetch cart"
-            });
-        }
-    },
+    try {
+        const userId = req.user.id;
+
+        const cart = await CartRepository.getOrCreateCart(userId);
+
+        const items =
+            await CartItemRepository.getCartItemsWithProductsByCartId(
+                cart.id
+            );
+
+        res.status(200).json({
+            cart,
+            items
+        });
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: "Cannot fetch cart"
+        });
+    }
+},
 
     async createCart(req, res) {
         try {

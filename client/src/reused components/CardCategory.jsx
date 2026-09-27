@@ -3,7 +3,7 @@ import { FaArrowRight } from "react-icons/fa";
 const CardCategory = ({ category }) => {
   return (
     <>
-      <div className="cursor-pointer grid gap-2 p-7 justify-items-center bg-white shadow-xl hover:shadow-2xl rounded-2xl overflow-hidden">
+      <div className="cursor-pointer grid gap-2 p-7 justify-items-center bg-white shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:shadow-2xl rounded-2xl overflow-hidden">
         <div className="w-full h-24 md:h-36 xl:h-56">
           <img
             src={category.image_url}

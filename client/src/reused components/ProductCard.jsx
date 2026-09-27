@@ -3,9 +3,43 @@ import { MdShoppingCart } from "react-icons/md";
 
 const ProductCard = ({ products }) => {
   const percentage = 100 - (products.promo_price / products.price) * 100;
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const response = await fetch("http://localhost:5001/api/cart/items", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product_id: products.id,
+          qty: 1,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Failed to add to cart:", data.message);
+        return;
+      }
+
+      console.log("Added to cart:", data);
+
+      window.dispatchEvent(new Event("cartUpdated"));
+      console.log("cartUpdated event dispatched");
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+    }
+  };
+
   return (
     <>
-      <div className="group bg-card text-text h-130 xl:h-150 flex flex-col rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden">
+      <div className="group bg-card text-text h-130 xl:h-150 flex flex-col rounded-3xl shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:shadow-2xl overflow-hidden">
         <div className="relative h-44 md:h-56 xl:h-64 shrink-0">
           <div className="absolute top-4 left-4 flex gap-2">
             {products.rating && Number(products.rating) >= 4.5 ? (
@@ -86,7 +120,10 @@ const ProductCard = ({ products }) => {
                 </div>
               </div>
 
-              <div className="flex bg-buttons hover:bg-primary-hover cursor-pointer gap-2 items-center h-fit xl:h-10 px-5 py-5 rounded-xl">
+              <div
+                onClick={handleAddToCart}
+                className="flex bg-buttons hover:bg-primary-hover cursor-pointer gap-2 items-center h-fit xl:h-10 px-5 py-5 rounded-xl"
+              >
                 {/* <p className="hidden min-[1900px]:block">add to cart</p> */}
 
                 <MdShoppingCart />

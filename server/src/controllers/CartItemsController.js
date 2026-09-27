@@ -41,17 +41,35 @@ const cartItemsController = {
     },
 
     async deleteCartItem(req, res) {
-        try {
-            const id = req.params.id;
-            const cart = await CartItemRepository.deleteCartItem(id);
-            res.status(200).json(cart);
-        } catch (err) {
-            console.error(err);
-            res.status(400).json({
-                message: "Cannot delete cart"
+        console.log("DELETE CART ITEM CONTROLLER REACHED");
+    try {
+        const id = req.params.id;
+        const userId = req.user.id;
+
+        console.log("DELETE:", { id, userId });
+
+        const cartItem = await CartItemRepository.deleteCartItemByUser(
+            id,
+            userId
+        );
+
+        console.log("RESULT:", cartItem);
+
+        if (!cartItem) {
+            return res.status(404).json({
+                message: "Cart item not found"
             });
         }
-    },
+
+        res.status(200).json(cartItem);
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: "Cannot delete cart item"
+        });
+    }
+}
 };
 
 export default cartItemsController;
