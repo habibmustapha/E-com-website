@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 
 function StatusBadge({ status }) {
   const styles = {
-    Delivered: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    Shipped: "bg-sky-50 text-sky-700 border-sky-200",
-    Processing: "bg-amber-50 text-amber-700 border-amber-200",
+    delivered: "bg-emerald-100 text-emerald-700 border-emerald-200",
+    shipped: "bg-sky-100 text-sky-700 border-sky-200",
+    processing: "bg-amber-100 text-amber-700 border-amber-200",
+    pending: "bg-slate-50 text-slate-700 border-slate-200",
+    cancelled: "bg-red-100 text-red-700 border-red-200",
   };
+
   return (
     <span
-      className={`text-xs font-medium px-2.5 py-1 rounded-full border ${styles[status] || "bg-slate-50 text-slate-600 border-slate-200"}`}
+      className={`text-xs font-medium px-2.5 py-1 rounded-full border ${
+        styles[status] || "bg-slate-50 text-slate-600 border-slate-200"
+      }`}
     >
       {status}
     </span>
@@ -28,6 +33,7 @@ function SectionHeader({ title, description }) {
 
 const OrderDashboard = () => {
   const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -43,6 +49,7 @@ const OrderDashboard = () => {
     };
     fetchOrders();
   }, []);
+
   return (
     <>
       <div>
@@ -54,6 +61,8 @@ const OrderDashboard = () => {
                 <th className="px-5 py-3 font-medium">Order</th>
                 <th className="px-5 py-3 font-medium">Date</th>
                 <th className="px-5 py-3 font-medium">Items</th>
+                <th className="px-5 py-3 font-medium">Unit price</th>
+                <th className="px-5 py-3 font-medium">Quantity</th>
                 <th className="px-5 py-3 font-medium">Total</th>
                 <th className="px-5 py-3 font-medium">Status</th>
                 <th className="px-5 py-3 font-medium"></th>
@@ -75,19 +84,23 @@ const OrderDashboard = () => {
                     {order.product_name}
                   </td>
                   <td className="px-5 py-4 text-slate-800">
-                    {order.total_price}
+                    {order.unit_price}
+                  </td>
+                  <td className="px-5 py-4 text-slate-800">{order.qty}</td>
+                  <td className="px-5 py-4 text-slate-800">
+                    {order.qty * order.unit_price}
                   </td>
                   <td className="px-5 py-4">
                     <StatusBadge status={order.status} />
                   </td>
-                  <td className="px-5 py-4 text-right">
+                  {/* <td className="px-5 py-4 text-right">
                     <button
                       type="button"
                       className="text-sm font-medium text-teal-700 hover:underline"
                     >
                       Track
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

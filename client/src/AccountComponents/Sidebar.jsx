@@ -1,10 +1,10 @@
-import { LifeBuoy, Heart, User, Truck, Package, LogOut } from "lucide-react";
+import { LifeBuoy, User, Truck, Package, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const links = [
   { name: "Profile", icon: User, path: "/profile/info" },
   { name: "Orders", icon: Package, path: "/profile/Orders" },
-  { name: "Saved Items", icon: Heart, path: "/profile/Saved-items" },
+  // { name: "Saved Items", icon: Heart, path: "/profile/Saved-items" },
   { name: "Track my Orders", icon: Truck, path: "/profile/track-order" },
   {
     name: "Customer service",
