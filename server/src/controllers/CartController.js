@@ -1,4 +1,5 @@
 import CartRepository from "../repositories/CartRepository.js";
+import CartItemRepository from "../repositories/CartItemRepository.js";
 
 
 const cartController = {
@@ -39,6 +40,36 @@ const cartController = {
             });
         }
     },
+
+    async addToCart(req, res) {
+    try {
+        const userId = req.user.id;
+        const { product_id, qty } = req.body;
+
+        if (!product_id) {
+            return res.status(400).json({
+                message: "Product ID is required"
+            });
+        }
+
+        const cart = await CartRepository.getOrCreateCart(userId);
+
+        const cartItem = await CartItemRepository.addCartItem(
+            cart.id,
+            product_id,
+            qty || 1
+        );
+
+        res.status(200).json(cartItem);
+
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: "Cannot add product to cart"
+        });
+    }
+},
 
     async updateCart(req, res) {
         try {
