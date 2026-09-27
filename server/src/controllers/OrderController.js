@@ -30,7 +30,6 @@ const orderController = {
 
     async getOrdersByUserId(req, res) {
     try {
-        console.log("AUTHENTICATED USER:", req.user);
         
         const userId = req.user.id;
 

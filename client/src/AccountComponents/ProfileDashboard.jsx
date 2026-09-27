@@ -1,16 +1,38 @@
 import { Pencil, Mail, Phone, MapPin } from "lucide-react";
-
-const DEFAULT_USER = {
-  name: "Habib Mustapha",
-  email: "Habib.Mustapha@example.com",
-  phone: "+213 555 012 345",
-  address: "12 Rue des Frères Bouadou, Oran, Algeria",
-  memberSince: "2023",
-  avatarUrl: "",
-};
+import { useEffect, useState } from "react";
 
 const ProfileDashboard = () => {
-  const user = DEFAULT_USER;
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(`http://localhost:5001/api/auth/me`, {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          console.log("failed to fetch profile info");
+        }
+
+        const data = await response.json();
+        setProfile(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
+
+  const date = new Date(profile.created_at).toLocaleDateString();
+
+  const name = `${profile.first_name} ${profile.last_name}`;
+
+  const user = profile;
   return (
     <>
       <div className="w-full">
@@ -21,10 +43,10 @@ const ProfileDashboard = () => {
         <div className="bg-white min-w-full border border-slate-200 rounded-xl p-6">
           <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
             <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold text-lg overflow-hidden">
-              {user.avatarUrl ? (
+              {user.profile_image ? (
                 <img
-                  src={user.avatarUrl}
-                  alt={user.name}
+                  src={user.profile_image}
+                  alt={name}
                   className="h-full w-full object-cover"
                 />
               ) : (
@@ -32,12 +54,8 @@ const ProfileDashboard = () => {
               )}
             </div>
             <div className="flex-1">
-              <p className="text-base font-semibold text-slate-900">
-                {user.name}
-              </p>
-              <p className="text-sm text-slate-500">
-                Member since {user.memberSince}
-              </p>
+              <p className="text-base font-semibold text-slate-900">{name}</p>
+              <p className="text-sm text-slate-500">Member since {date}</p>
             </div>
             <button
               type="button"
