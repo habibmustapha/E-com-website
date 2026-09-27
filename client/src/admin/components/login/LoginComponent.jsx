@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Login } from "../../../services/authService";
+import { loginAdmin } from "../../../services/authService";
 import back from "../../assets/back.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const LoginComponent = () => {
       setLoading(true);
       setError("");
 
-      const user = await Login(email, password);
+      const user = await loginAdmin(email, password);
 
       navigate("/admin");
 

@@ -3,7 +3,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
+import { loginUser } from "./services/authService";
 import Home from "./Pages/Home";
 import Shop from "./Pages/Shop";
 import Category from "./Pages/Category";
@@ -29,6 +31,33 @@ import Register from "./reused components/Register";
 import EditProduct from "./admin/components/Dashboard/EditProduct";
 import ProfileLayouts from "./layouts/ProfileLayouts";
 import OrderDashboard from "./AccountComponents/OrderDashboard";
+import AdminProtectedRoute from "./reused components/AdminProtectedRoute";
+
+function LoginPage() {
+  const navigate = useNavigate();
+
+  // const handleLogin = async (form) => {
+  //   const data = await loginUser(form.email, form.password);
+
+  //   console.log("Logged in:", data);
+
+  //   navigate("/profile/info");
+  // };
+
+  const handleLogin = async (form) => {
+    console.log("FORM:", form);
+    console.log("EMAIL:", form.email);
+    console.log("PASSWORD:", form.password);
+
+    const data = await loginUser(form.email, form.password);
+
+    console.log("Logged in:", data);
+
+    navigate("/profile/info");
+  };
+
+  return <LoginUser onSubmit={handleLogin} />;
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,11 +80,20 @@ const router = createBrowserRouter(
         <Route path="Saved-items" element={<ProfileDashboard />} />
         <Route path="track-order" element={<ProfileDashboard />} />
       </Route>
-      <Route path="/login" element={<LoginUser />} />
+
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/Register" element={<Register />} />
 
       <Route path="/admin/login" element={<Login />} />
-      <Route path="/admin" element={<AdminLayout />}>
+
+      <Route
+        path="/admin"
+        element={
+          <AdminProtectedRoute>
+            <AdminLayout />
+          </AdminProtectedRoute>
+        }
+      >
         <Route index element={<Dashboard />} />
         <Route path="products" element={<Products />} />
         <Route path="categories" element={<Categories />} />

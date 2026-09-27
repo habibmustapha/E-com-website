@@ -40,6 +40,7 @@ const auth = {
                 phone,
                 email,
                 ps_hash,
+                role: "customer",
                 activated : false,
             });
 
@@ -95,6 +96,12 @@ const auth = {
                 })
             }
 
+            if (userData.role !== "customer") {
+            return res.status(403).json({
+                message: "Access denied"
+            });
+        }
+
 
             const correct_password = await bcrypt.compare(password, userData.ps_hash);
 
@@ -131,6 +138,69 @@ const auth = {
             });
         }
     },
+
+    async adminLogin(req, res) {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Please fill all fields"
+            });
+        }
+
+        const userData = await userRepository.getUserByEmail(email);
+
+        if (!userData) {
+            return res.status(403).json({
+                message: "Incorrect email or password"
+            });
+        }
+
+        if (userData.role !== "admin") {
+            return res.status(403).json({
+                message: "Access denied"
+            });
+        }
+
+        const correct_password = await bcrypt.compare(
+            password,
+            userData.ps_hash
+        );
+
+        if (!correct_password) {
+            return res.status(403).json({
+                message: "Incorrect email or password"
+            });
+        }
+
+        const token = generateToken(userData.id);
+
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000
+        };
+
+        res.cookie("token", token, cookieOptions);
+
+        return res.status(200).json({
+            id: userData.id,
+            username: userData.username,
+            email: userData.email,
+            phone: userData.phone,
+            role: userData.role
+        });
+
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: "Failed to login"
+        });
+    }
+},
 }
 
 export default auth;
