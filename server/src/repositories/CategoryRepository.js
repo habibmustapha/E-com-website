@@ -52,12 +52,30 @@ const CategoryRepository = {
     },
 
     async deleteCategory(id) {
-        const result = await db.query(
-            `DELETE FROM category WHERE id =$1 RETURNING *`,
-            [id]
-        );
-        return result.rows[0];
-    },
+    const result = await db.query(
+        `
+        WITH undefined_category AS (
+            SELECT id
+            FROM category
+            WHERE name = 'Undefined'
+            LIMIT 1
+        ),
+        moved_products AS (
+            UPDATE products
+            SET cat_id = (SELECT id FROM undefined_category)
+            WHERE cat_id = $1
+              AND $1 <> (SELECT id FROM undefined_category)
+        )
+        DELETE FROM category
+        WHERE id = $1
+          AND id <> (SELECT id FROM undefined_category)
+        RETURNING *;
+        `,
+        [id]
+    );
+
+    return result.rows[0];
+},
 
 };
 

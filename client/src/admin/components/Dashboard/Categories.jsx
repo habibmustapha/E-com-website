@@ -27,6 +27,38 @@ const Categories = () => {
     fetchCategories();
   }, []);
 
+  const handleDelete = async (categoryId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/categories/${categoryId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        const text = await response.text();
+
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          data = {};
+        }
+
+        throw new Error(data.message || "Failed to delete category");
+      }
+
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.id !== categoryId),
+      );
+    } catch (err) {
+      console.error("Delete category error:", err);
+    }
+  };
+
   if (loading) {
     return (
       <section className="bg-background text-text py-15 md:py-20 px-5">
@@ -113,6 +145,7 @@ const Categories = () => {
                       {/* Delete */}
                       <button
                         type="button"
+                        onClick={() => handleDelete(category.id)}
                         className="h-10 w-10 rounded-lg bg-danger flex items-center justify-center"
                       >
                         <svg
