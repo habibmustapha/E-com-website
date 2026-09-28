@@ -54,36 +54,81 @@ const OrderRepository = {
 },
 
     async createOrder(order) {
-        const {
-            first_name,
-            last_name,
-            user_id,
-            email,
-            address,
-            phone,
-            total_price,
-            status,
-            wilaya,
-            communes
-        } = order;
+    const {
+        first_name,
+        last_name,
+        user_id,
+        email,
+        address,
+        phone,
+        total_price,
+        status,
+        wilaya,
+        communes
+    } = order;
 
-        const result = await db.query(
-            `INSERT INTO orders
-                (
-                    first_name,
-                    last_name,
-                    user_id,
-                    email,
-                    address,
-                    phone,
-                    total_price,
-                    status,
-                    wilaya,
-                    communes
-                )
-             VALUES
-                ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-             RETURNING *;`,
+    const client = await db.connect();
+
+    try {
+        await client.query("BEGIN");
+
+        // Find the user's cart
+        const cartResult = await client.query(
+            `
+            SELECT id
+            FROM cart
+            WHERE user_id = $1
+            `,
+            [user_id]
+        );
+
+        const cart = cartResult.rows[0];
+
+        if (!cart) {
+            throw new Error("Cart not found");
+        }
+
+        // Get cart items with their current prices
+        const itemsResult = await client.query(
+            `
+            SELECT
+                ci.product_id,
+                ci.qty,
+                COALESCE(p.promo_price, p.price) AS unit_price
+            FROM cart_items ci
+            JOIN products p
+                ON p.id = ci.product_id
+            WHERE ci.cart_id = $1
+            `,
+            [cart.id]
+        );
+
+        const items = itemsResult.rows;
+
+        if (items.length === 0) {
+            throw new Error("Cart is empty");
+        }
+
+        // Create the order
+        const orderResult = await client.query(
+            `
+            INSERT INTO orders
+            (
+                first_name,
+                last_name,
+                user_id,
+                email,
+                address,
+                phone,
+                total_price,
+                status,
+                wilaya,
+                communes
+            )
+            VALUES
+            ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+            RETURNING *
+            `,
             [
                 first_name,
                 last_name,
@@ -98,56 +143,99 @@ const OrderRepository = {
             ]
         );
 
-        return result.rows[0];
-    },
+        const createdOrder = orderResult.rows[0];
 
-    async updateOrder(order, id) {
-        const {
+        // Create order items
+        for (const item of items) {
+            await client.query(
+                `
+                INSERT INTO orderitems
+                (
+                    order_id,
+                    product_id,
+                    qty,
+                    unit_price
+                )
+                VALUES
+                ($1,$2,$3,$4)
+                `,
+                [
+                    createdOrder.id,
+                    item.product_id,
+                    item.qty,
+                    item.unit_price
+                ]
+            );
+        }
+
+        // Empty the cart
+        await client.query(
+            `
+            DELETE FROM cart_items
+            WHERE cart_id = $1
+            `,
+            [cart.id]
+        );
+
+        await client.query("COMMIT");
+
+        return createdOrder;
+
+    } catch (err) {
+        await client.query("ROLLBACK");
+        throw err;
+    } finally {
+        client.release();
+    }
+},
+
+    async updateOrder(id, order) {
+    const {
+        first_name,
+        last_name,
+        email,
+        address,
+        phone,
+        total_price,
+        status,
+        wilaya,
+        communes
+    } = order;
+
+    const result = await db.query(
+        `
+        UPDATE orders
+        SET
+            first_name = $1,
+            last_name = $2,
+            email = $3,
+            address = $4,
+            phone = $5,
+            total_price = $6,
+            status = $7,
+            wilaya = $8,
+            communes = $9,
+            updated_at = NOW()
+        WHERE id = $10
+        AND deleted = false
+        RETURNING *
+        `,
+        [
             first_name,
             last_name,
             email,
-            user_id,
             address,
-            total_price,
             phone,
+            total_price,
+            status,
             wilaya,
             communes,
-            status
-        } = order;
+            id
+        ]
+    );
 
-        const result = await db.query(
-            `UPDATE orders
-             SET
-                first_name = $1,
-                last_name = $2,
-                email = $3,
-                user_id = $4,
-                address = $5,
-                total_price = $6,
-                phone = $7,
-                wilaya = $8,
-                communes = $9,
-                status = $10,
-                updated_at = CURRENT_TIMESTAMP
-             WHERE id = $11
-             RETURNING *;`,
-            [
-                first_name,
-                last_name,
-                email,
-                user_id,
-                address,
-                total_price,
-                phone,
-                wilaya,
-                communes,
-                status,
-                id
-            ]
-        );
-
-        return result.rows[0];
-    },
+    return result.rows[0];
+},
 
     async deleteOrder(id) {
         const result = await db.query(

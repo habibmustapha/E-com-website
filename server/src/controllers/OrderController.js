@@ -82,17 +82,30 @@ const orderController = {
 },
 
     async updateOrder(req, res) {
-        try {
-            const id = req.params.id;
-            const cart = await OrderRepository.updateOrder(id);
-            res.status(200).json(cart);
-        } catch (err) {
-            console.error(err);
-            res.status(400).json({
-                message: "Cannot update cart"
+    try {
+        const id = req.params.id;
+
+        const order = await OrderRepository.updateOrder(
+            id,
+            req.body
+        );
+
+        if (!order) {
+            return res.status(404).json({
+                message: "Order not found"
             });
         }
-    },
+
+        res.status(200).json(order);
+
+    } catch (err) {
+        console.error(err);
+
+        res.status(400).json({
+            message: "Cannot update order"
+        });
+    }
+},
 
     async deleteOrder(req, res) {
         try {

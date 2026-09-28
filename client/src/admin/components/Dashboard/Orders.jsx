@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -25,6 +28,35 @@ const Orders = () => {
     };
     fetchOrders();
   }, []);
+
+  const handleDelete = async (orderId) => {
+    setSaving(true);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/orders/${orderId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to delete order");
+      }
+
+      navigate("/admin/orders");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
+
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.id !== orderId),
+    );
+  };
 
   if (loading) {
     <section className="bg-background text-text py-15 md:py-20 px-5">
@@ -94,7 +126,12 @@ const Orders = () => {
                   </td>
                   <td>
                     <div className="px-2 py-2 flex items-center gap-4">
-                      <div className="h-10 w-10 rounded-lg bg-green-600 flex items-center justify-center ">
+                      <div
+                        onClick={() =>
+                          navigate(`/admin/order/${order.id}/edit`)
+                        }
+                        className="h-10 w-10 rounded-lg bg-green-600 flex items-center justify-center "
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
@@ -110,7 +147,11 @@ const Orders = () => {
                           <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
                         </svg>
                       </div>
-                      <div className="h-10 w-10 rounded-lg bg-danger flex items-center justify-center ">
+                      <div
+                        onClick={() => handleDelete(order.id)}
+                        disabled={saving}
+                        className="h-10 w-10 rounded-lg bg-danger flex items-center justify-center "
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"

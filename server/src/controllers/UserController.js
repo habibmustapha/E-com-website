@@ -34,6 +34,20 @@ const userController = {
         }
     },
 
+    async getMe(req, res) {
+    try {
+        
+
+        return res.status(200).json(req.user);
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: "Cannot fetch current user"
+        });
+    }
+},
+
     async createUser(req, res) {
         try {
             const userData = req.body;

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -88,6 +90,9 @@ const Categories = () => {
                       {/* Edit */}
                       <button
                         type="button"
+                        onClick={() =>
+                          navigate(`/admin/categories/${category.id}/edit`)
+                        }
                         className="h-10 w-10 rounded-lg bg-green-600 flex items-center justify-center"
                       >
                         <svg

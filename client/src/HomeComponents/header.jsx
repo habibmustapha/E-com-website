@@ -140,7 +140,7 @@ const Header = () => {
           </div> */}
 
           <div className="grid grid-cols-1">
-            <Link to={"/profile/edit"}>
+            <Link to={"/profile/info"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"

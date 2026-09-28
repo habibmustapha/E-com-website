@@ -15,7 +15,8 @@ const ProductRepository = {
             c.name AS category
         FROM products p
         JOIN category c
-        ON p.cat_id = c.id;`);
+        ON p.cat_id = c.id
+        WHERE deleted = false;`);
         return result.rows;
     },
 

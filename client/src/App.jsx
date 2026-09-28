@@ -33,28 +33,23 @@ import ProfileLayouts from "./layouts/ProfileLayouts";
 import OrderDashboard from "./AccountComponents/OrderDashboard";
 import AdminProtectedRoute from "./reused components/AdminProtectedRoute";
 import Checkout from "./CheckoutComponent/Checkout";
+import CategoryEdit from "./admin/components/Dashboard/CategoryEdit";
+import OrderEdit from "./admin/components/Dashboard/OrderEdit";
 
 function LoginPage() {
   const navigate = useNavigate();
 
-  // const handleLogin = async (form) => {
-  //   const data = await loginUser(form.email, form.password);
-
-  //   console.log("Logged in:", data);
-
-  //   navigate("/profile/info");
-  // };
-
   const handleLogin = async (form) => {
-    console.log("FORM:", form);
-    console.log("EMAIL:", form.email);
-    console.log("PASSWORD:", form.password);
+    try {
+      const data = await loginUser(form.email, form.password);
 
-    const data = await loginUser(form.email, form.password);
+      console.log("LOGIN SUCCESS:", data);
 
-    console.log("Logged in:", data);
-
-    navigate("/profile/info");
+      navigate("/profile/info");
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
+      throw err;
+    }
   };
 
   return <LoginUser onSubmit={handleLogin} />;
@@ -78,8 +73,8 @@ const router = createBrowserRouter(
 
       <Route path="/profile" element={<ProfileLayouts />}>
         <Route path="info" element={<ProfileDashboard />} />
-        <Route path="Orders" element={<OrderDashboard />} />
-        <Route path="Saved-items" element={<ProfileDashboard />} />
+        <Route path="orders" element={<OrderDashboard />} />
+        <Route path="saved-items" element={<ProfileDashboard />} />
         <Route path="track-order" element={<ProfileDashboard />} />
       </Route>
 
@@ -103,6 +98,8 @@ const router = createBrowserRouter(
         <Route path="customers" element={<Clients />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="products/:id/edit" element={<EditProduct />} />
+        <Route path="categories/:id/edit" element={<CategoryEdit />} />
+        <Route path="order/:id/edit" element={<OrderEdit />} />
         <Route path="Ai" element={<AI />} />
       </Route>
     </>,

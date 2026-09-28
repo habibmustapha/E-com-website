@@ -31,13 +31,13 @@ const AdminProtectedRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  if (!user && user.role !== "admin") {
+    return <Navigate to="/admin/login" replace />;
   }
 
-  if (user.role !== "admin") {
-    return <Navigate to="/" replace />;
-  }
+  // if () {
+  //   return <Navigate to="admin/login" replace />;
+  // }
 
   return children;
 };

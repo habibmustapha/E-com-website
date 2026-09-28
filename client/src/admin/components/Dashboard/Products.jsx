@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Products = () => {
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
   const [loding, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -25,6 +25,39 @@ const Products = () => {
 
     fetchProducts();
   }, []);
+
+  const handleDelete = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/products/${productId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        const text = await response.text();
+
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          data = {};
+        }
+
+        throw new Error(data.message || "Failed to delete product");
+      }
+
+      // Only remove from UI after backend confirms deletion
+      setProduct((prevProduct) =>
+        prevProduct.filter((product) => product.id !== productId),
+      );
+    } catch (err) {
+      console.error("Delete product error:", err);
+    }
+  };
 
   if (loding) {
     return (
@@ -102,7 +135,10 @@ const Products = () => {
                           <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
                         </svg>
                       </div>
-                      <div className="h-10 w-10 rounded-lg bg-danger flex items-center justify-center ">
+                      <div
+                        onClick={() => handleDelete(product.id)}
+                        className="h-10 w-10 rounded-lg bg-danger flex items-center justify-center "
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
