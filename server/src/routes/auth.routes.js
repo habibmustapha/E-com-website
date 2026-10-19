@@ -31,7 +31,7 @@ router.post("/admin/login", auth.adminLogin);
 
 router.get("/me", authMiddleware, async (req, res) => {
     try {
-        console.log("ME REQ.USER:", req.user);
+        
 
         if (!req.user) {
             return res.status(401).json({
@@ -61,6 +61,20 @@ router.get("/me", authMiddleware, async (req, res) => {
             message: "Cannot fetch current user"
         });
     }
+});
+
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  return res.status(200).json({
+    message: "Logged out successfully",
+  });
 });
 
 export default router;

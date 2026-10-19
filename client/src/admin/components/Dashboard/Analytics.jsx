@@ -42,10 +42,10 @@ const Analytics = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="#0d542b"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-arrow-up preview-icon"
+                  strokewidth="3"
+                  strokelinecap="round"
+                  strokelinejoin="round"
+                  className="lucide lucide-arrow-up preview-icon"
                 >
                   <path d="m5 12 7-7 7 7" />
                   <path d="M12 19V5" />
@@ -76,10 +76,10 @@ const Analytics = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="#0d542b"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-arrow-up preview-icon"
+                  strokewidth="3"
+                  strokelinecap="round"
+                  strokelinejoin="round"
+                  className="lucide lucide-arrow-up preview-icon"
                 >
                   <path d="m5 12 7-7 7 7" />
                   <path d="M12 19V5" />
@@ -110,10 +110,10 @@ const Analytics = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="#82181a"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-arrow-down preview-icon"
+                  strokewidth="3"
+                  strokelinecap="round"
+                  strokelinejoin="round"
+                  className="lucide lucide-arrow-down preview-icon"
                 >
                   <path d="M12 5v14" />
                   <path d="m19 12-7 7-7-7" />
@@ -144,10 +144,10 @@ const Analytics = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="#82181a"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-arrow-down preview-icon"
+                  strokewidth="3"
+                  strokelinecap="round"
+                  strokelinejoin="round"
+                  className="lucide lucide-arrow-down preview-icon"
                 >
                   <path d="M12 5v14" />
                   <path d="m19 12-7 7-7-7" />
@@ -177,10 +177,10 @@ const Analytics = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="#0d542b"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-arrow-up preview-icon"
+                  strokewidth="3"
+                  strokelinecap="round"
+                  strokelinejoin="round"
+                  className="lucide lucide-arrow-up preview-icon"
                 >
                   <path d="m5 12 7-7 7 7" />
                   <path d="M12 19V5" />

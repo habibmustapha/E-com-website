@@ -30,34 +30,82 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    let active = true;
+
+    const getGuestCartCount = () => {
+      try {
+        const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+
+        return guestCart.reduce(
+          (total, item) => total + (Number(item.qty) || 0),
+          0,
+        );
+      } catch (error) {
+        console.error("Failed to read guest cart:", error);
+        return 0;
+      }
+    };
+
     const fetchCartCount = async () => {
+      // Show the guest count immediately while checking authentication.
+      if (active) {
+        setCartCount(getGuestCartCount());
+      }
+
       try {
         const response = await fetch("http://localhost:5001/api/cart/user", {
           credentials: "include",
         });
 
-        if (!response.ok) {
-          setCartCount(0);
+        if (!active) return;
+
+        if (response.ok) {
+          const data = await response.json();
+
+          const count = (data.items ?? []).reduce(
+            (total, item) => total + (Number(item.qty) || 0),
+            0,
+          );
+
+          setCartCount(count);
           return;
         }
 
-        const data = await response.json();
+        if (response.status === 401 || response.status === 403) {
+          setCartCount(getGuestCartCount());
+          return;
+        }
 
-        const count = data.items.length;
+        console.error("Failed to fetch cart count:", response.status);
+      } catch (error) {
+        // If the API is unavailable, still show the local guest cart.
+        if (active) {
+          setCartCount(getGuestCartCount());
+        }
 
-        setCartCount(count);
-      } catch (err) {
-        console.error("Failed to fetch cart count:", err);
-        setCartCount(0);
+        console.error("Failed to fetch cart count:", error);
       }
     };
 
     fetchCartCount();
 
-    window.addEventListener("cartUpdated", fetchCartCount);
+    const handleCartUpdated = () => {
+      fetchCartCount();
+    };
+
+    const handleStorage = (event) => {
+      if (event.key === "guestCart") {
+        fetchCartCount();
+      }
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdated);
+    window.addEventListener("storage", handleStorage);
 
     return () => {
-      window.removeEventListener("cartUpdated", fetchCartCount);
+      active = false;
+      window.removeEventListener("cartUpdated", handleCartUpdated);
+      window.removeEventListener("storage", handleStorage);
     };
   }, []);
 
@@ -148,11 +196,10 @@ const Header = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-user-round"
-                className="justify-self-center"
+                strokewidth="2"
+                strokelinecap="round"
+                strokelinejoin="round"
+                className="lucide lucide-user-round justify-self-center"
               >
                 <circle cx="12" cy="8" r="5" />
                 <path d="M20 21a8 8 0 0 0-16 0" />

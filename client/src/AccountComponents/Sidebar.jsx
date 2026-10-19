@@ -1,5 +1,7 @@
 import { LifeBuoy, User, Truck, Package, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../services/authService";
 
 const links = [
   { name: "Profile", icon: User, path: "/profile/info" },
@@ -14,6 +16,18 @@ const links = [
 ];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      return;
+    }
+
+    navigate("/login", { replace: true });
+  };
   return (
     <aside className="w-72 h-screen bg-surface text-black top-0 flex flex-col">
       {/* Logo */}
@@ -48,7 +62,10 @@ const Sidebar = () => {
 
       {/* Logout */}
       <div className="p-4 border-t border-slate-800">
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 transition">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 transition"
+        >
           <LogOut size={20} />
           Logout
         </button>

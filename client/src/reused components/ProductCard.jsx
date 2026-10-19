@@ -8,6 +8,13 @@ const ProductCard = ({ products }) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (Number(products.qty) <= 0) {
+      console.warn("This product is out of stock.");
+      return;
+    }
+
+    const productId = Number(products.id);
+
     try {
       const response = await fetch("http://localhost:5001/api/cart/items", {
         method: "POST",
@@ -16,22 +23,46 @@ const ProductCard = ({ products }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          product_id: products.id,
+          product_id: productId,
           qty: 1,
         }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        console.error("Failed to add to cart:", data.message);
+      if (response.ok) {
+        console.log("Added to database cart:", data);
+        window.dispatchEvent(new Event("cartUpdated"));
         return;
       }
 
-      console.log("Added to cart:", data);
+      // No authentication cookie: use the guest cart.
+      if (response.status === 403) {
+        const savedCart = localStorage.getItem("guestCart");
+        const guestCart = savedCart ? JSON.parse(savedCart) : [];
 
-      window.dispatchEvent(new Event("cartUpdated"));
-      console.log("cartUpdated event dispatched");
+        const existingItem = guestCart.find(
+          (item) => Number(item.product_id) === productId,
+        );
+
+        if (existingItem) {
+          existingItem.qty += 1;
+        } else {
+          guestCart.push({
+            product_id: productId,
+            qty: 1,
+            product: products,
+          });
+        }
+
+        localStorage.setItem("guestCart", JSON.stringify(guestCart));
+
+        console.log("Added to guest cart:", guestCart);
+        window.dispatchEvent(new Event("cartUpdated"));
+        return;
+      }
+
+      console.error("Failed to add to cart:", data.message);
     } catch (err) {
       console.error("Error adding to cart:", err);
     }

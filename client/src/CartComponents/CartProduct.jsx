@@ -2,42 +2,106 @@ import TotalPrice from "./TotalPrice";
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
 
+const getGuestCart = () => {
+  try {
+    const savedCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+
+    return savedCart.map((entry) => {
+      const product = entry.product ?? entry;
+
+      return {
+        cart_item_id: entry.cart_item_id ?? null,
+        product_id: Number(entry.product_id ?? product.id),
+        name: product.name,
+        image_url: product.image_url ?? product.image,
+        unit_price: Number(product.price ?? entry.unit_price ?? 0),
+        promo_price: product.promo_price ?? entry.promo_price ?? null,
+        qty: Number(entry.qty) || 1,
+      };
+    });
+  } catch (error) {
+    console.error("Could not read guest cart:", error);
+    return [];
+  }
+};
+
 const CartProduct = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isGuestCart, setIsGuestCart] = useState(false);
 
   useEffect(() => {
+    let active = true;
+
     const fetchCart = async () => {
+      setLoading(true);
+
       try {
         const response = await fetch("http://localhost:5001/api/cart/user", {
           credentials: "include",
         });
 
-        const data = await response.json();
+        if (response.ok) {
+          const data = await response.json();
 
-        if (!response.ok) {
-          console.error(data.message);
+          if (active) {
+            setIsGuestCart(false);
+            setCartItems(data.items ?? []);
+          }
+
           return;
         }
 
-        console.log("CART:", data.cart);
-        console.log("CART ITEMS:", data.items);
+        if (response.status === 401 || response.status === 403) {
+          if (active) {
+            setIsGuestCart(true);
+            setCartItems(getGuestCart());
+          }
 
-        setCartItems(data.items);
-      } catch (err) {
-        console.error("Failed to fetch cart:", err);
+          return;
+        }
+
+        const data = await response.json().catch(() => ({}));
+        console.error("Failed to fetch cart:", data.message);
+      } catch (error) {
+        console.error("Failed to fetch cart:", error);
       } finally {
-        setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     };
 
     fetchCart();
+
+    const handleCartUpdated = () => {
+      fetchCart();
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdated);
+
+    return () => {
+      active = false;
+      window.removeEventListener("cartUpdated", handleCartUpdated);
+    };
   }, []);
 
-  const handleRemoveItem = async (cartItemId) => {
+  const handleRemoveItem = async (item) => {
     try {
+      if (isGuestCart) {
+        const guestCart = getGuestCart().filter(
+          (guestItem) => guestItem.product_id !== Number(item.product_id),
+        );
+
+        localStorage.setItem("guestCart", JSON.stringify(guestCart));
+
+        setCartItems(guestCart);
+        window.dispatchEvent(new Event("cartUpdated"));
+        return;
+      }
+
       const response = await fetch(
-        `http://localhost:5001/api/cartitems/${cartItemId}`,
+        `http://localhost:5001/api/cartitems/${item.cart_item_id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -50,13 +114,15 @@ const CartProduct = () => {
         return;
       }
 
-      setCartItems((prevItems) =>
-        prevItems.filter((item) => item.cart_item_id !== cartItemId),
+      setCartItems((previous) =>
+        previous.filter(
+          (cartItem) => cartItem.cart_item_id !== item.cart_item_id,
+        ),
       );
 
       window.dispatchEvent(new Event("cartUpdated"));
-    } catch (err) {
-      console.error("Failed to remove cart item:", err);
+    } catch (error) {
+      console.error("Failed to remove cart item:", error);
     }
   };
 
@@ -93,16 +159,16 @@ const CartProduct = () => {
                 <tr className="w-full">
                   <td>
                     <X
-                      onClick={() => handleRemoveItem(item.cart_item_id)}
+                      onClick={() => handleRemoveItem(item)}
                       className="text-text  hover:text-danger cursor-pointer"
                     />
                   </td>
                   <td className=" px-2">
                     <div className="flex items-center">
                       <img
-                        src={item.image_url}
+                        src={item.image_url ?? item.image}
                         className="w-12 md:w-24 h-12 md:h-18 p-2"
-                        alt=""
+                        alt={item.name}
                       />
                       <h1 className="text-sm line-clamp-3 md:line-clamp-2">
                         {item.name}
@@ -110,7 +176,11 @@ const CartProduct = () => {
                     </div>
                   </td>
                   <td className="text-center">
-                    {Number(item.unit_price).toLocaleString("fr-FR")} DA
+                    {(
+                      Number(item.promo_price ?? item.unit_price) *
+                      Number(item.qty)
+                    ).toLocaleString("fr-FR")}{" "}
+                    DA
                   </td>
                   <td className="">
                     <div className="flex justify-center">
@@ -152,12 +222,15 @@ const CartProduct = () => {
           {cartItems.map((item) => (
             <div>
               <div className="flex pt-5 border-b border-gray-300 w-full">
-                <X className="pt-3 h-8 w-8 text-danger hover:text-danger cursor-pointer" />
+                <X
+                  onClick={() => handleRemoveItem(item)}
+                  className="pt-3 h-8 w-8 text-danger hover:text-danger cursor-pointer"
+                />
                 <div className="flex-1 items-center">
                   <img
-                    src={item.image}
-                    className="w-24 h-auto justify-self-start"
-                    alt=""
+                    src={item.image_url ?? item.image}
+                    className="w-12 md:w-24 h-12 md:h-18 p-2"
+                    alt={item.name}
                   />
                 </div>
                 <div className="min-w-68 grid grid-cols-1">
@@ -182,7 +255,11 @@ const CartProduct = () => {
                   </div>
                   <div className="flex w-full h-10 items-center justify-between  py-2 border-gray-300">
                     <h3 className="font-bold text-gray-400">Sub Total</h3>
-                    {(Number(item.unit_price) * item.qty).toFixed(2)} DA
+                    {(
+                      Number(item.promo_price ?? item.unit_price) *
+                      Number(item.qty)
+                    ).toLocaleString("fr-FR")}{" "}
+                    DA
                   </div>
                 </div>
               </div>

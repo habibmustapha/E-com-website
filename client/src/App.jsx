@@ -81,24 +81,19 @@ const router = createBrowserRouter(
 
       <Route path="/admin/login" element={<Login />} />
 
-      <Route
-        path="/admin"
-        element={
-          <AdminProtectedRoute>
-            <AdminLayout />
-          </AdminProtectedRoute>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="products" element={<Products />} />
-        <Route path="categories" element={<Categories />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="customers" element={<Clients />} />
-        <Route path="analytics" element={<Analytics />} />
-        <Route path="products/:id/edit" element={<EditProduct />} />
-        <Route path="categories/:id/edit" element={<CategoryEdit />} />
-        <Route path="order/:id/edit" element={<OrderEdit />} />
-        <Route path="Ai" element={<AI />} />
+      <Route element={<AdminProtectedRoute />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="products" element={<Products />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="customers" element={<Clients />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="products/:id/edit" element={<EditProduct />} />
+          <Route path="categories/:id/edit" element={<CategoryEdit />} />
+          <Route path="order/:id/edit" element={<OrderEdit />} />
+          <Route path="Ai" element={<AI />} />
+        </Route>
       </Route>
     </>,
   ),

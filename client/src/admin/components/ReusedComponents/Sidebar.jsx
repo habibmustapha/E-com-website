@@ -14,6 +14,9 @@ import {
 import logo from "../../../assets/logoZ.png";
 import { NavLink } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const links = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
   { name: "Products", icon: Package, path: "/admin/products" },
@@ -28,6 +31,22 @@ const links = [
 ];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5001/api/auth/logout",
+        {},
+        { withCredentials: true },
+      );
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      navigate("/admin/login", { replace: true });
+    }
+  };
+
   return (
     <aside className="w-72 h-screen bg-slate-900 text-white top-0 flex flex-col">
       {/* Logo */}
@@ -61,8 +80,12 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout */}
+
       <div className="p-4 border-t border-slate-800">
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 transition">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500 transition"
+        >
           <LogOut size={20} />
           Logout
         </button>

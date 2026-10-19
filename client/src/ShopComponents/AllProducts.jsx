@@ -10,6 +10,9 @@ const AllProducts = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -52,12 +55,23 @@ const AllProducts = () => {
     );
   });
 
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+
+  const currentProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + productsPerPage,
+  );
+
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((item) => item !== category)
         : [...prev, category],
     );
+
+    setCurrentPage(1);
   };
 
   const handleBrandChange = (brand) => {
@@ -66,12 +80,16 @@ const AllProducts = () => {
         ? prev.filter((item) => item !== brand)
         : [...prev, brand],
     );
+
+    setCurrentPage(1);
   };
 
   const clearFilters = () => {
     setSelectedCategories([]);
+    setSelectedBrand([]);
     setMinPrice("");
     setMaxPrice("");
+    setCurrentPage(1);
   };
 
   if (loading) {
@@ -216,12 +234,26 @@ const AllProducts = () => {
         </aside>
 
         {/* Products */}
+
         <div className="w-full md:w-10/12 xl:w-10/12">
+          <div className="mb-4 flex items-center justify-between">
+            <p className="text-sm text-gray-500">
+              {filteredProducts.length === 0
+                ? "No products found"
+                : `Showing ${startIndex + 1}–${Math.min(
+                    startIndex + productsPerPage,
+                    filteredProducts.length,
+                  )} of ${filteredProducts.length} products`}
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-4 gap-5">
-            {products.length === 0 ? (
-              <p>No products found.</p>
+            {currentProducts.length === 0 ? (
+              <p className="col-span-full py-10 text-center">
+                No products match your filters.
+              </p>
             ) : (
-              filteredProducts.map((product) => (
+              currentProducts.map((product) => (
                 <Link key={product.id} to={`/product/${product.id}`}>
                   <ProductCard products={product} />
                 </Link>
@@ -230,7 +262,51 @@ const AllProducts = () => {
           </div>
 
           {/* Pagination */}
-          {/* 
+          {totalPages > 1 && (
+            <nav
+              aria-label="Product pagination"
+              className="flex flex-wrap items-center justify-center gap-2 pt-8"
+            >
+              <button
+                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                disabled={currentPage === 1}
+                className="rounded-lg border border-gray-300 px-4 py-2 transition hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Previous
+              </button>
+
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    aria-current={currentPage === page ? "page" : undefined}
+                    className={`h-10 min-w-10 rounded-lg border px-3 transition ${
+                      currentPage === page
+                        ? "border-primary bg-primary text-white"
+                        : "border-gray-300 hover:bg-primary hover:text-white"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
+
+              <button
+                onClick={() =>
+                  setCurrentPage((page) => Math.min(totalPages, page + 1))
+                }
+                disabled={currentPage === totalPages}
+                className="rounded-lg border border-gray-300 px-4 py-2 transition hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+              </button>
+            </nav>
+          )}
+        </div>
+
+        {/* Pagination */}
+        {/* 
           <div className="pt-5">
             <Paginations.PaginationCardDefault
               page={currentPage}
@@ -238,7 +314,6 @@ const AllProducts = () => {
             />
           </div> 
           */}
-        </div>
       </div>
     </section>
   );
