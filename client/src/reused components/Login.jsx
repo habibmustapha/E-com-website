@@ -1,12 +1,7 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import { FormField, PrimaryButton, ErrorBanner } from "./FormField";
-
-/**
- * Pure UI. Wire it up by passing:
- *   onSubmit={(values) => { ... call your API here ... }}
- * onNavigateToRegister={() => { ... }} 
- */
 
 const Login = ({ onSubmit, onNavigateToRegister }) => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -15,8 +10,15 @@ const Login = ({ onSubmit, onNavigateToRegister }) => {
   const [formError, setFormError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const update = (field) => (e) =>
-    setForm((f) => ({ ...f, [field]: e.target.value }));
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const update = (field) => (e) => {
+    const value = e.target.value;
+    setForm((f) => ({ ...f, [field]: value }));
+    // clear the field error as soon as the user edits it
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
+  };
 
   const validate = () => {
     const next = {};
@@ -28,75 +30,69 @@ const Login = ({ onSubmit, onNavigateToRegister }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return; // prevent double submit
     setFormError("");
+
     if (!validate()) return;
 
+    setLoading(true);
     try {
-      setLoading(true);
-      await onSubmit?.(form);
+      await onSubmit?.({ ...form, email: form.email.trim() });
+
+      const from = location.state?.from;
+      const destination = from?.pathname?.startsWith("/profile")
+        ? `${from.pathname}${from.search || ""}${from.hash || ""}`
+        : "/profile/info";
+
+      navigate(destination, { replace: true });
     } catch (err) {
       setFormError(err?.message || "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
+      setLoading(false); // only reset on failure; on success we navigate away
     }
   };
 
   return (
-    <AuthLayout
-      eyebrow="Welcome back"
-      title="Log in to your account"
-      subtitle="Track orders, save favorites and check out faster."
-    >
+    <AuthLayout>
       <form onSubmit={handleSubmit} noValidate>
-        <ErrorBanner message={formError} />
+        {formError && <ErrorBanner>{formError}</ErrorBanner>}
 
         <FormField
           label="Email"
           type="email"
+          name="email"
           autoComplete="email"
-          placeholder="you@example.com"
           value={form.email}
           onChange={update("email")}
           error={errors.email}
         />
 
-        <div className="relative">
-          <FormField
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            autoComplete="current-password"
-            placeholder="••••••••"
-            value={form.password}
-            onChange={update("password")}
-            error={errors.password}
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword((s) => !s)}
-            className="absolute right-3 top-8.5 text-xs text-[#9B9B96] hover:text-[#C9A227]"
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
-        </div>
+        <FormField
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          name="password"
+          autoComplete="current-password"
+          value={form.password}
+          onChange={update("password")}
+          error={errors.password}
+          rightSlot={
+            <button
+              type="button"
+              onClick={() => setShowPassword((s) => !s)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          }
+        />
 
-        <div className="flex justify-end mb-6 -mt-2">
-          <a href="#" className="text-xs text-[#9B9B96] hover:text-[#C9A227]">
-            Forgot password?
-          </a>
-        </div>
-
-        <PrimaryButton type="submit" loading={loading}>
-          Log in
+        <PrimaryButton type="submit" loading={loading} disabled={loading}>
+          Sign in
         </PrimaryButton>
 
-        <p className="text-sm text-[#9B9B96] mt-8 text-center">
-          New to Z-Phone?{" "}
-          <button
-            type="button"
-            onClick={onNavigateToRegister}
-            className="text-[#C9A227] hover:text-[#E4C24B]"
-          >
-            Create an account
+        <p>
+          Don't have an account?{" "}
+          <button type="button" onClick={onNavigateToRegister}>
+            Create one
           </button>
         </p>
       </form>

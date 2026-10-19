@@ -3,7 +3,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
 import { loginUser } from "./services/authService";
 import Home from "./Pages/Home";
@@ -35,17 +34,14 @@ import AdminProtectedRoute from "./reused components/AdminProtectedRoute";
 import Checkout from "./CheckoutComponent/Checkout";
 import CategoryEdit from "./admin/components/Dashboard/CategoryEdit";
 import OrderEdit from "./admin/components/Dashboard/OrderEdit";
+import ProtectedRoute from "./reused components/ProtectedRoutes";
 
 function LoginPage() {
-  const navigate = useNavigate();
-
   const handleLogin = async (form) => {
     try {
       const data = await loginUser(form.email, form.password);
 
       console.log("LOGIN SUCCESS:", data);
-
-      navigate("/profile/info");
     } catch (err) {
       console.error("LOGIN ERROR:", err);
       throw err;
@@ -71,11 +67,13 @@ const router = createBrowserRouter(
         <Route path="/*" element={<NotFound />} />
       </Route>
 
-      <Route path="/profile" element={<ProfileLayouts />}>
-        <Route path="info" element={<ProfileDashboard />} />
-        <Route path="orders" element={<OrderDashboard />} />
-        <Route path="saved-items" element={<ProfileDashboard />} />
-        <Route path="track-order" element={<ProfileDashboard />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/profile" element={<ProfileLayouts />}>
+          <Route path="info" element={<ProfileDashboard />} />
+          <Route path="orders" element={<OrderDashboard />} />
+          <Route path="saved-items" element={<ProfileDashboard />} />
+          <Route path="track-order" element={<ProfileDashboard />} />
+        </Route>
       </Route>
 
       <Route path="/login" element={<LoginPage />} />
