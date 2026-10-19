@@ -29,24 +29,37 @@ const ProductRepository = {
     },
 
     async createProduct(product) {
-        const {
+    const {
+        name,
+        price,
+        cat_id,
+        image_url,
+        description,
+        qty = 0,
+        brand,
+        promo_price
+    } = product;
+
+    const result = await db.query(
+        `INSERT INTO products
+            (name, price, cat_id, image_url, description, qty, brand, promo_price)
+         VALUES
+            ($1, $2, $3, $4, $5, $6, $7, $8)
+         RETURNING *`,
+        [
             name,
             price,
-            cat_id,
-            image_url,
-            description,
-            qty
-        } = product;
-        const result = await db.query(
-            `INSERT INTO products 
-                (name , price, cat_id, image_url, description, qty) 
-            VALUES  
-                ($1,$2,$3,$4,$5,$6)
-            RETURNING *`,
-            [name , price, cat_id, image_url, description, qty]
-        );
-        return result.rows[0];
-    },
+            cat_id || null,
+            image_url || null,
+            description || null,
+            qty,
+            brand || null,
+            promo_price || null
+        ]
+    );
+
+    return result.rows[0];
+},
 
     async updateProduct(product, id) {
         const {
