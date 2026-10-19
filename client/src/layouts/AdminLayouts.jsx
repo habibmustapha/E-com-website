@@ -4,13 +4,13 @@ import TopNavbar from "../admin/components/ReusedComponents/TopNavbar";
 
 const AdminLayout = () => {
   return (
-    <div className="flex h-dvh overflow-hidden">
+    <div className="flex h-full overflow-hidden">
       <Sidebar />
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopNavbar />
 
-        <main className="min-h-0 min-w-0 flex-1 overflow-hidden">
+        <main className="ml-72 h-screen overflow-y-auto flex-1 p-6">
           <Outlet />
         </main>
       </div>

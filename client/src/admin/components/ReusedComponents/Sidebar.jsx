@@ -48,7 +48,8 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="w-72 h-screen bg-slate-900 text-white top-0 flex flex-col">
+    <aside className="fixed left-0 top-0 w-72 h-screen overflow-y-auto bg-slate-900 text-white flex flex-col">
+      {" "}
       {/* Logo */}
       <div className="h-20 flex items-center justify-center border-b border-slate-800">
         {/* <h1 className="text-2xl font-black tracking-wide text-primary">
@@ -56,7 +57,6 @@ const Sidebar = () => {
         </h1> */}
         <img src={logo} alt="" />
       </div>
-
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6">
         {links.map(({ name, icon: Icon, path }) => (
@@ -78,9 +78,7 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </nav>
-
       {/* Logout */}
-
       <div className="p-4 border-t border-slate-800">
         <button
           onClick={handleLogout}

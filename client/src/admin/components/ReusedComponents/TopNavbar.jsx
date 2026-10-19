@@ -3,7 +3,7 @@ import admin from "../../assets/admin.png";
 
 const TopNavbar = () => {
   return (
-    <header className="h-20 bg-white border-b border-gray-300 px-8 flex items-center w-full justify-between">
+    <header className="pl-74 h-20 bg-white border-b border-gray-300 px-8 flex items-center w-full justify-between">
       <div>
         <h1 className="text-2xl font-semibold">Welcom back! Admin</h1>
         <h3 className="text-md">

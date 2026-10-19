@@ -1,52 +1,54 @@
+import { useEffect, useMemo, useState } from "react";
+import axios from "axios";
+
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
-const data = [
-  { month: "Jan", sales: 4000 },
-  { month: "Feb", sales: 3000 },
-  { month: "Mar", sales: 5000 },
-  { month: "Apr", sales: 4500 },
-  { month: "May", sales: 6000 },
-  { month: "Jun", sales: 7500 },
-];
+// const data = [
+//   { month: "Jan", sales: 4000 },
+//   { month: "Feb", sales: 3000 },
+//   { month: "Mar", sales: 5000 },
+//   { month: "Apr", sales: 4500 },
+//   { month: "May", sales: 6000 },
+//   { month: "Jun", sales: 7500 },
+// ];
 
-const stats = [
-  {
-    title: "Total Sales",
-    subtitle: "645 orders",
-    amount: "154,500",
-    unit: "DZD",
-    growth: "+19,3%",
-    weekly: "+15K DZD",
-    icon: "bag",
-    dark: true,
-  },
-  {
-    title: "Visitors",
-    subtitle: "Avg. Time: 4:12m",
-    amount: "15 000",
-    unit: "",
-    growth: "+12,3%",
-    weekly: "+1650",
-    icon: "users",
-  },
-  {
-    title: "Refunds",
-    subtitle: "6",
-    amount: "34k",
-    unit: "DZD",
-    growth: "+0,3%",
-    weekly: "-14k DZD",
-    icon: "refund",
-  },
-];
+// const stats = [
+//   {
+//     title: "Total Sales",
+//     subtitle: "645 orders",
+//     amount: "154,500",
+//     unit: "DZD",
+//     growth: "+19,3%",
+//     weekly: "+15K DZD",
+//     icon: "bag",
+//     dark: true,
+//   },
+//   {
+//     title: "Visitors",
+//     subtitle: "Avg. Time: 4:12m",
+//     amount: "15 000",
+//     unit: "",
+//     growth: "+12,3%",
+//     weekly: "+1650",
+//     icon: "users",
+//   },
+//   {
+//     title: "Refunds",
+//     subtitle: "6",
+//     amount: "34k",
+//     unit: "DZD",
+//     growth: "+0,3%",
+//     weekly: "-14k DZD",
+//     icon: "refund",
+//   },
+// ];
 
 function StatIcon({ type }) {
   const paths = {
@@ -138,128 +140,230 @@ function StatCard({ stat }) {
             </span>
           )}
         </p>
-
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-sm font-medium sm:text-base">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#D4AF37"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M16 7h6v6" />
-              <path d="m22 7-8.5 8.5-5-5L2 17" />
-            </svg>
-            {stat.growth}
-          </div>
-
-          <p className="text-sm">
-            <span
-              className={`font-bold ${
-                stat.weekly.startsWith("-") ? "text-danger" : "text-primary"
-              }`}
-            >
-              {stat.weekly}
-            </span>{" "}
-            <span className="opacity-70">this week</span>
-          </p>
-        </div>
       </div>
     </article>
   );
 }
 
 function Dashboard() {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await axios.get("http://localhost:5001/api/orders", {
+          withCredentials: true,
+        });
+
+        // Supports either an array or { orders: [...] }
+        const fetchedOrders = Array.isArray(response.data)
+          ? response.data
+          : response.data.orders;
+
+        if (!Array.isArray(fetchedOrders)) {
+          throw new Error("Unexpected orders API response.");
+        }
+
+        setOrders(fetchedOrders);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to load orders.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  const dashboardData = useMemo(() => {
+    const normalizeStatus = (status) =>
+      String(status ?? "")
+        .trim()
+        .toLowerCase();
+
+    const countStatus = (status) =>
+      orders.filter((order) => normalizeStatus(order.status) === status).length;
+
+    const sumStatus = (status) =>
+      orders
+        .filter((order) => normalizeStatus(order.status) === status)
+        .reduce((sum, order) => sum + (Number(order.total_price) || 0), 0);
+
+    const shipped = countStatus("shipped");
+    const returned = countStatus("returned");
+
+    const statuses = [
+      { name: "Shipped", status: "shipped", color: "#16a34a" },
+      { name: "Confirmed", status: "confirmed", color: "#fbbf24" },
+      { name: "Pending", status: "pending", color: "#f97316" },
+      { name: "Returned", status: "returned", color: "#dc2626" },
+      { name: "Cancelled", status: "cancelled", color: "#64748b" },
+    ];
+
+    const statusData = statuses.map((item) => ({
+      ...item,
+      count: countStatus(item.status),
+      percentage: orders.length
+        ? (countStatus(item.status) / orders.length) * 100
+        : 0,
+    }));
+
+    return {
+      totalOrders: orders.length,
+      shipped,
+      returned,
+      totalSales: sumStatus("shipped"),
+      totalRefunds: sumStatus("returned"),
+      statusData,
+    };
+  }, [orders]);
+
+  const formatMoney = (amount) =>
+    `${amount.toLocaleString("fr-DZ", {
+      maximumFractionDigits: 2,
+    })} DZD`;
+
+  if (loading) {
+    return <div className="p-6">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-red-600">Could not load dashboard: {error}</div>
+    );
+  }
+
+  // Render the dashboard UI below using dashboardData.
   return (
-    <section className="mx-auto w-full max-w-[1600px] min-w-0 px-4 py-5 sm:px-6 sm:py-8 lg:px-8 xl:px-10">
-      {/* Summary cards */}
-      <div className="grid grid-cols-1 gap-4 pb-6 sm:grid-cols-2 xl:grid-cols-3 xl:gap-5">
-        {stats.map((stat) => (
-          <StatCard key={stat.title} stat={stat} />
-        ))}
+    <section className="mx-auto w-full max-w-[1600px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
+      <div className="grid grid-cols-1 gap-4 pb-6 sm:grid-cols-2 xl:grid-cols-3">
+        <StatCard
+          stat={{
+            title: "Total Sales",
+            subtitle: `${dashboardData.shipped} shipped orders`,
+            amount: formatMoney(dashboardData.totalSales),
+            unit: "",
+            icon: "bag",
+            dark: true,
+          }}
+        />
+
+        <StatCard
+          stat={{
+            title: "Total Orders",
+            subtitle: "All order statuses",
+            amount: dashboardData.totalOrders.toLocaleString(),
+            unit: "",
+            icon: "users",
+          }}
+        />
+
+        <StatCard
+          stat={{
+            title: "Refunds",
+            subtitle: `${dashboardData.returned} returned orders`,
+            amount: formatMoney(dashboardData.totalRefunds),
+            unit: "",
+            icon: "refund",
+          }}
+        />
       </div>
 
-      {/* Charts */}
       <div className="grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-3">
-        {/* Sales chart */}
         <section className="min-w-0 rounded-2xl bg-surface p-4 shadow-md sm:p-5 xl:col-span-2">
           <h2 className="mb-4 text-lg font-semibold sm:text-xl">
-            Sales Overview
+            Orders by Status
           </h2>
 
-          <div className="h-64 min-w-0 sm:h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={data}
-                margin={{ top: 8, right: 12, left: -12, bottom: 0 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} tickMargin={8} />
-                <YAxis
-                  width={55}
-                  tick={{ fontSize: 11 }}
-                  tickFormatter={(value) =>
-                    value >= 1000 ? `${value / 1000}k` : value
-                  }
-                />
-                <Tooltip
-                  formatter={(value) => [
-                    `${Number(value).toLocaleString()} DZD`,
-                    "Sales",
-                  ]}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="#1CB55E"
-                  strokeWidth={3}
-                  dot={{ r: 3 }}
-                  activeDot={{ r: 5 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          {dashboardData.totalOrders === 0 ? (
+            <p className="py-12 text-center text-gray-500">No orders found.</p>
+          ) : (
+            <div className="h-72 min-w-0 sm:h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={dashboardData.statusData.filter(
+                      (item) => item.count > 0,
+                    )}
+                    dataKey="count"
+                    nameKey="name"
+                    cx="50%"
+                    cy="45%"
+                    outerRadius="75%"
+                    label={({ name, percent }) =>
+                      `${name} ${(percent * 100).toFixed(1)}%`
+                    }
+                  >
+                    {dashboardData.statusData
+                      .filter((item) => item.count > 0)
+                      .map((item) => (
+                        <Cell key={item.status} fill={item.color} />
+                      ))}
+                  </Pie>
+
+                  <Tooltip
+                    formatter={(value, name, props) => [
+                      `${value} orders (${props.payload.percentage.toFixed(1)}%)`,
+                      name,
+                    ]}
+                  />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </section>
 
-        {/* Orders summary */}
         <section className="min-w-0 rounded-2xl bg-surface p-4 shadow-md sm:p-5">
-          <h2 className="mb-6 text-lg font-semibold sm:text-xl">Orders</h2>
+          <h2 className="mb-6 text-lg font-semibold sm:text-xl">
+            Orders Summary
+          </h2>
 
-          <div
-            className="mb-6 flex h-2 w-full overflow-hidden rounded-full bg-gray-200"
-            aria-label="Order status distribution"
-          >
-            <span className="h-full w-5/12 bg-green-600" />
-            <span className="h-full w-3/12 bg-amber-400" />
-            <span className="h-full w-3/12 bg-orange-500" />
-            <span className="h-full w-2/12 bg-danger" />
+          <div className="mb-6 flex h-3 w-full overflow-hidden rounded-full bg-gray-200">
+            {dashboardData.statusData.map((item) =>
+              item.count > 0 ? (
+                <div
+                  key={item.status}
+                  title={`${item.name}: ${item.percentage.toFixed(1)}%`}
+                  style={{
+                    width: `${item.percentage}%`,
+                    backgroundColor: item.color,
+                  }}
+                />
+              ) : null,
+            )}
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 shrink-0 rounded-full bg-green-600" />
-              <p className="text-sm sm:text-base">Orders delivered</p>
-            </div>
+            {dashboardData.statusData.map((item) => (
+              <div key={item.status} className="flex items-center gap-3">
+                <span
+                  className="h-3 w-3 shrink-0 rounded-full"
+                  style={{ backgroundColor: item.color }}
+                />
 
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 shrink-0 rounded-full bg-amber-400" />
-              <p className="text-sm sm:text-base">Orders confirmed</p>
-            </div>
+                <p className="min-w-0 flex-1 text-sm sm:text-base">
+                  {item.name}
+                </p>
 
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 shrink-0 rounded-full bg-orange-500" />
-              <p className="text-sm sm:text-base">Orders pending</p>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 shrink-0 rounded-full bg-danger" />
-              <p className="text-sm sm:text-base">Orders cancelled</p>
-            </div>
+                <p className="text-right text-sm font-semibold">
+                  {item.count}
+                  <span className="ml-2 text-gray-500">
+                    {item.percentage.toFixed(1)}%
+                  </span>
+                </p>
+              </div>
+            ))}
           </div>
         </section>
       </div>
